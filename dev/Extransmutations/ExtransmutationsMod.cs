@@ -1,5 +1,6 @@
 ﻿
 using Quintessential;
+using MonoMod.RuntimeDetour;
 
 namespace Extransmutations;
 
@@ -10,9 +11,56 @@ using AtomTypes = class_175;
 using Texture = class_256;
 
 public class ExtransmutationsMod : QuintessentialMod {
-  public override void Load() { }
+
+  public static AtomType WhitePhosphorus;
+
+  private Hook hook_sim_method_1825;
+
+  public override void Load() {
+    hook_sim_method_1825 = new Hook(
+      typeof(Sim).GetMethod("method_1825", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public),
+      OnSimMethod1825);
+  }
+  private static bool OnSimMethod1825(On.Sim.orig_method_1825 orig, Sim s) {
+    //var inputs = s.field_3818.method_502().method_1934().field_2770;
+    List<HexIndex> okList = new();
+    foreach (Part part in s.field_3818.method_502().field_3919) {
+      var isInputOutput = part.method_1159().method_310();
+      var isOutput = part.method_1159().method_309();
+      if( !(!isOutput && isInputOutput) ) {continue;}
+      Molecule molecMaybe = part.method_1185(s.field_3818.method_502());
+      var hexPos = part.method_1161();
+      var partRotation = part.method_1163();
+      foreach(var kv in molecMaybe.method_1100()) {
+        if(kv.Value.field_2275 != WhitePhosphorus) {continue;}
+        okList.Add(kv.Key.Rotated(partRotation) + hexPos);
+      }
+    }
+    // DEBUG
+    var seb = s.field_3818;
+    foreach (var okHex in okList) {
+      seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(okHex), Brimstone.API.GetAnimation("textures/parts/calcification_glyph_flash.array", "calcify_glyph", 10), 2f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+    }
+    //
+    foreach (Molecule m in s.field_3823) {
+      foreach (var kv in m.method_1100()) {
+        Atom atom = kv.Value;
+        if (atom.field_2275 == WhitePhosphorus) {
+          HexIndex atomHex = kv.Key; 
+          if (!okList.Contains(atomHex)) { return false; }
+        }
+      }
+    }
+    return orig(s);
+  }
   public override void PostLoad() { }
   public override void LoadPuzzleContent() {
+    WhitePhosphorus = Brimstone.API.CreateNormalAtom(81, "Extransmutations", "White Phosphorus",
+      pathToSymbol: "textures/atoms/atom_white_phosphorus",
+      pathToDiffuse: "textures/atoms/white_phosphorus_diffuse",
+      pathToShade: "textures/atoms/white_phosphorus_shade");
+    QApi.AddAtomType(WhitePhosphorus);
+
     Textures textures = new();
     var glyphRevolution = GlyphRevolution.LoadPuzzleContent(textures);
     var cardinalInversion = GlyphInversion.LoadPuzzleContent(textures);
@@ -34,5 +82,7 @@ public class ExtransmutationsMod : QuintessentialMod {
       }
     });
   }
-  public override void Unload() { }
+  public override void Unload() {
+    hook_sim_method_1825 = null;
+  }
 }
