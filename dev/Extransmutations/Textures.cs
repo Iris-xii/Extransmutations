@@ -34,4 +34,10 @@ public class Textures {
     public Texture cardinalCompletionBase = class_235.method_615("textures/parts/completion_base");
     public Texture cardinalCompletionGlow = class_235.method_615("textures/parts/completion/glow");
     public Texture cardinalCompletionStroke = class_235.method_615("textures/parts/completion/stroke");
+    public Texture dejectionBase = class_235.method_615("textures/parts/dejection/base");
+    public Texture dejectionGlow = class_235.method_615("textures/parts/dejection/glow");
+    public Texture dejectionStroke = class_235.method_615("textures/parts/dejection/stroke");
+    public Texture bowlHole = class_235.method_615("textures/parts/extransmutations_hole");
+    public Texture anyCardinal = class_235.method_615("textures/parts/any_cardinal");
+    public Texture backCardinal = class_235.method_615("textures/parts/back_cardinal");
 }

@@ -13,7 +13,7 @@ using Texture = class_256;
 
 public class ExtransmutationsMod : QuintessentialMod {
 
-  public static AtomType WhitePhosphorus;
+  public static AtomType IchorMortuum;
 
   public Hook hook_sim_method_1825;
   private ILHook ilhook_orig_method_1832;
@@ -59,7 +59,7 @@ public class ExtransmutationsMod : QuintessentialMod {
       var hexPos = part.method_1161();
       var partRotation = part.method_1163();
       foreach (var kv in molecMaybe.method_1100()) {
-        if (kv.Value.field_2275 != WhitePhosphorus) { continue; }
+        if (kv.Value.field_2275 != IchorMortuum) { continue; }
         okList.Add(kv.Key.Rotated(partRotation) + hexPos);
       }
     }
@@ -72,7 +72,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     foreach (Molecule m in s.field_3823) {
       foreach (var kv in m.method_1100()) {
         Atom atom = kv.Value;
-        if (atom.field_2275 == WhitePhosphorus) {
+        if (atom.field_2275 == IchorMortuum) {
           HexIndex atomHex = kv.Key;
           if (!okList.Contains(atomHex)) { return false; }
         }
@@ -92,7 +92,7 @@ public class ExtransmutationsMod : QuintessentialMod {
       var hexPos = part.method_1161();
       var partRotation = part.method_1163();
       foreach (var kv in molecMaybe.method_1100()) {
-        if (kv.Value.field_2275 != WhitePhosphorus) { continue; }
+        if (kv.Value.field_2275 != IchorMortuum) { continue; }
         okList.Add(kv.Key.Rotated(partRotation) + hexPos);
       }
     }
@@ -105,7 +105,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     foreach (Molecule m in s.field_3823) {
       foreach (var kv in m.method_1100()) {
         Atom atom = kv.Value;
-        if (atom.field_2275 == WhitePhosphorus) {
+        if (atom.field_2275 == IchorMortuum) {
           HexIndex atomHex = kv.Key;
           if (!okList.Contains(atomHex)) { return false; }
         }
@@ -120,16 +120,17 @@ public class ExtransmutationsMod : QuintessentialMod {
     );
   }
   public override void LoadPuzzleContent() {
-    WhitePhosphorus = Brimstone.API.CreateNormalAtom(81, "Extransmutations", "White Phosphorus",
-      pathToSymbol: "textures/atoms/atom_white_phosphorus",
-      pathToDiffuse: "textures/atoms/white_phosphorus_diffuse",
-      pathToShade: "textures/atoms/white_phosphorus_shade");
-    QApi.AddAtomType(WhitePhosphorus);
+    IchorMortuum = Brimstone.API.CreateNormalAtom(81, "Extransmutations", "Ichor Mortuum",
+      pathToSymbol: "textures/atoms/ichor_mortuum",
+      pathToDiffuse: "textures/atoms/ichor_mortuum_diffuse",
+      pathToShade: "textures/atoms/ichor_mortuum_shade");
+    QApi.AddAtomType(IchorMortuum);
 
     Textures textures = new();
     var glyphRevolution = GlyphRevolution.LoadPuzzleContent(textures);
     var cardinalInversion = GlyphInversion.LoadPuzzleContent(textures);
     var cardinalCompletion = GlyphCompletion.LoadPuzzleContent(textures);
+    var glyphDejection = GlyphDejection.LoadPuzzleContent(textures);
 
     QApi.RunAfterCycle((sim, first) => {
       var seb = sim.field_3818;
@@ -144,6 +145,7 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures); }
         if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures); }
         if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures); }
+        if (partType == glyphDejection) { GlyphDejection.Activate(first,sim, seb, part, textures); }
       }
     });
   }
