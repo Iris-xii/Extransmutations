@@ -21,7 +21,7 @@ public static class GlyphDejection {
     PartType glyphDejection = new() {
       field_1528 = "extransmutations-dejection", // ID
       field_1529 = class_134.method_253("Glyph of Dejection", string.Empty), // Name
-      field_1530 = class_134.method_253("The Glyph of Dejection transmutes a cardinal into an atom of Ichor Mortuum and produces two cardinals one step backwards along the Cardinal Cycle (Fire -> x2 Earth -> x2 Water -> x2 Air -> x2 Fire)", string.Empty), // Description
+      field_1530 = class_134.method_253("The Glyph of Dejection transmutes a cardinal into an atom of Ichor and produces two cardinals one step backwards along the Cardinal Cycle (Fire -> x2 Earth -> x2 Water -> x2 Air -> x2 Fire)", string.Empty), // Description
       field_1531 = 10, // Cost
       field_1539 = true, // Is a glyph (?)
       field_1549 = t.dejectionGlow, // Shadow/glow
@@ -47,17 +47,35 @@ public static class GlyphDejection {
       renderer.method_528(t.bowlTexture, new HexIndex(0, 0), Vector2.Zero);
 
       renderer.method_529(t.anyCardinal, new HexIndex(0, 0), Vector2.Zero);
-      renderer.method_529(t.backCardinal, new HexIndex(1, 0), Vector2.Zero);
-      renderer.method_529(t.backCardinal, new HexIndex(0, 1), Vector2.Zero);
       //ty Green/Halving Metallurgy for helping me figure out... all this :s
       var offset1 = uco.field_1984 + class_187.field_1742.method_492(new HexIndex(1, 0)).Rotated(uco.field_1985);
       var offset2 = uco.field_1984 + class_187.field_1742.method_492(new HexIndex(0, 1)).Rotated(uco.field_1985);
-      if (pss.field_2743) {
-        Logger.Log($"THE FIELD!!! {pss.field_2744[0]}");
-        var targetAt = Molecule.method_1121(pss.field_2744[0]);
+
+      // iris
+      renderer.method_528(class_238.field_1989.field_90.field_228.field_272, new HexIndex(1, 0), Vector2.Zero);
+      renderer.method_528(class_238.field_1989.field_90.field_228.field_272, new HexIndex(0, 1), Vector2.Zero);
+      int irisFrame = 15;
+      bool afterIrisOpens = false;
+      var targetAt = pss.field_2743 ? Molecule.method_1121(pss.field_2744[0]) : null;
+      if (pss.field_2743 ) {
+        irisFrame = class_162.method_404((int)(class_162.method_411(1f, -1f, time) * 16f), 0, 15);
+        afterIrisOpens = time > 0.5f;
+        if (!afterIrisOpens && targetAt != null) {
+          Editor.method_925(targetAt, offset1, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
+          Editor.method_925(targetAt, offset2, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
+        }
+      }
+      renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], new HexIndex(1, 0), Vector2.Zero);
+      renderer.method_528(class_238.field_1989.field_90.field_228.field_271, new HexIndex(1, 0), Vector2.Zero);
+      renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], new HexIndex(0, 1), Vector2.Zero);
+      renderer.method_528(class_238.field_1989.field_90.field_228.field_271, new HexIndex(0, 1), Vector2.Zero);
+      
+      if (pss.field_2743 && afterIrisOpens) {
         Editor.method_925(targetAt, offset1, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
         Editor.method_925(targetAt, offset2, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
       }
+      renderer.method_529(t.backCardinal, new HexIndex(1, 0), Vector2.Zero);
+      renderer.method_529(t.backCardinal, new HexIndex(0, 1), Vector2.Zero);
     });
     QApi.AddPartTypeToPanel(glyphDejection, false);
     return glyphDejection;
@@ -67,9 +85,7 @@ public static class GlyphDejection {
     var output1 = new HexIndex(1, 0);
     var output2 = new HexIndex(0, 1);
     PartSimState pss = sim.field_3821[part];
-    Logger.Log($"half {firstHalf} {pss.field_2743}");
     if (pss.field_2743) {
-      Logger.Log($"secHalf {pss.field_2743}");
       Brimstone.API.AddAtom(sim, part, output1, pss.field_2744[0]);
       Brimstone.API.AddAtom(sim, part, output2, pss.field_2744[0]);
     }
@@ -87,8 +103,7 @@ public static class GlyphDejection {
       if (doTransmute) {
         pss.field_2743 = true;
         pss.field_2744 = new AtomType[] { target };
-        Logger.Log($"firstHalf {pss.field_2743}");
-        Brimstone.API.ChangeAtom(anyCard, ExtransmutationsMod.IchorMortuum);
+        Brimstone.API.ChangeAtom(anyCard, ExtransmutationsMod.Ichor);
         anyCard.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, anyCard.field_2280, class_238.field_1989.field_81.field_614, 60f);
       }
     }

@@ -13,7 +13,7 @@ using Texture = class_256;
 
 public class ExtransmutationsMod : QuintessentialMod {
 
-  public static AtomType IchorMortuum;
+  public static AtomType Ichor;
 
   public Hook hook_sim_method_1825;
   private ILHook ilhook_orig_method_1832;
@@ -59,7 +59,7 @@ public class ExtransmutationsMod : QuintessentialMod {
       var hexPos = part.method_1161();
       var partRotation = part.method_1163();
       foreach (var kv in molecMaybe.method_1100()) {
-        if (kv.Value.field_2275 != IchorMortuum) { continue; }
+        if (kv.Value.field_2275 != Ichor) { continue; }
         okList.Add(kv.Key.Rotated(partRotation) + hexPos);
       }
     }
@@ -72,7 +72,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     foreach (Molecule m in s.field_3823) {
       foreach (var kv in m.method_1100()) {
         Atom atom = kv.Value;
-        if (atom.field_2275 == IchorMortuum) {
+        if (atom.field_2275 == Ichor) {
           HexIndex atomHex = kv.Key;
           if (!okList.Contains(atomHex)) { return false; }
         }
@@ -92,7 +92,7 @@ public class ExtransmutationsMod : QuintessentialMod {
       var hexPos = part.method_1161();
       var partRotation = part.method_1163();
       foreach (var kv in molecMaybe.method_1100()) {
-        if (kv.Value.field_2275 != IchorMortuum) { continue; }
+        if (kv.Value.field_2275 != Ichor) { continue; }
         okList.Add(kv.Key.Rotated(partRotation) + hexPos);
       }
     }
@@ -105,7 +105,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     foreach (Molecule m in s.field_3823) {
       foreach (var kv in m.method_1100()) {
         Atom atom = kv.Value;
-        if (atom.field_2275 == IchorMortuum) {
+        if (atom.field_2275 == Ichor) {
           HexIndex atomHex = kv.Key;
           if (!okList.Contains(atomHex)) { return false; }
         }
@@ -120,11 +120,11 @@ public class ExtransmutationsMod : QuintessentialMod {
     );
   }
   public override void LoadPuzzleContent() {
-    IchorMortuum = Brimstone.API.CreateNormalAtom(81, "Extransmutations", "Ichor Mortuum",
-      pathToSymbol: "textures/atoms/ichor_mortuum",
-      pathToDiffuse: "textures/atoms/ichor_mortuum_diffuse",
-      pathToShade: "textures/atoms/ichor_mortuum_shade");
-    QApi.AddAtomType(IchorMortuum);
+    Ichor = Brimstone.API.CreateNormalAtom(81, "Extransmutations", "Ichor",
+      pathToSymbol: "textures/atoms/ichor",
+      pathToDiffuse: "textures/atoms/ichor_diffuse",
+      pathToShade: "textures/atoms/ichor_shade");
+    QApi.AddAtomType(Ichor);
 
     Textures textures = new();
     var glyphRevolution = GlyphRevolution.LoadPuzzleContent(textures);
