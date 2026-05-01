@@ -65,17 +65,18 @@ public static class GlyphDejection {
           Editor.method_925(targetAt, offset2, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
         }
       }
-      renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], new HexIndex(1, 0), Vector2.Zero);
+      //renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], new HexIndex(1, 0), Vector2.Zero);
+      renderer.method_529(t.dejectionIris[irisFrame], new HexIndex(1, 0), Vector2.Zero);
       renderer.method_528(class_238.field_1989.field_90.field_228.field_271, new HexIndex(1, 0), Vector2.Zero);
-      renderer.method_529(class_238.field_1989.field_90.field_246[irisFrame], new HexIndex(0, 1), Vector2.Zero);
+      renderer.method_529(t.dejectionIris[irisFrame], new HexIndex(0, 1), Vector2.Zero);
       renderer.method_528(class_238.field_1989.field_90.field_228.field_271, new HexIndex(0, 1), Vector2.Zero);
       
       if (pss.field_2743 && afterIrisOpens) {
         Editor.method_925(targetAt, offset1, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
         Editor.method_925(targetAt, offset2, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
       }
-      renderer.method_529(t.backCardinal, new HexIndex(1, 0), Vector2.Zero);
-      renderer.method_529(t.backCardinal, new HexIndex(0, 1), Vector2.Zero);
+      //renderer.method_529(t.backCardinal, new HexIndex(1, 0), Vector2.Zero);
+      //renderer.method_529(t.backCardinal, new HexIndex(0, 1), Vector2.Zero);
     });
     QApi.AddPartTypeToPanel(glyphDejection, false);
     return glyphDejection;

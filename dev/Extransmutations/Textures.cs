@@ -40,4 +40,8 @@ public class Textures {
     public Texture bowlHole = class_235.method_615("textures/parts/extransmutations_hole");
     public Texture anyCardinal = class_235.method_615("textures/parts/any_cardinal");
     public Texture backCardinal = class_235.method_615("textures/parts/back_cardinal");
+    public Texture ichorIcon = class_235.method_615("textures/parts/ichor_icon");
+  public Texture[] destroyAnim = Brimstone.API.GetAnimation("textures/parts/disposal_flash.array", "disposal_flash", 30);
+  public Texture saltBowlGlyphSpotWhite = class_235.method_615("textures/parts/salt_glyph_white");
+  public Texture[] dejectionIris = Brimstone.API.GetAnimation("textures/parts/dejection_iris.array", "iris_full_cardinal_previous", 16);
 }

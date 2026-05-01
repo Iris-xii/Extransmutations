@@ -12,3 +12,7 @@ The Glyph of cardinal inversion transmutes two cardinals into an opposing cardin
 
 ### The Glyph of Cardinal Completion:
 The Glyph of Cardinal Completion transmutes 3 different cardinals and 1 salt atom into 4 atoms of the missing cardinal.
+
+
+
+Thanks to Greenfield for general helpfulness all around, Brimstone, and the graphics for the Dejection iris!
