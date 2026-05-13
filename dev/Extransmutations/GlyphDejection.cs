@@ -16,7 +16,7 @@ public static class GlyphDejection {
 
     QApi.AddPuzzlePermission("extransmutations-dejection",
     "Glyph of Dejection",
-    "Extransmutations");
+    "Extransmutations"); 
 
     PartType glyphDejection = new() {
       field_1528 = "extransmutations-dejection", // ID

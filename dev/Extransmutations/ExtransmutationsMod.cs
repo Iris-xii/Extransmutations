@@ -132,6 +132,8 @@ public class ExtransmutationsMod : QuintessentialMod {
     var cardinalCompletion = GlyphCompletion.LoadPuzzleContent(textures);
     var glyphDejection = GlyphDejection.LoadPuzzleContent(textures);
     var glyphRecombination = GlyphRecombination.LoadPuzzleContent(textures);
+    var glyphAeration = GlyphAeration.LoadPuzzleContent(textures);
+    var glyphLiquidation = GlyphLiquidation.LoadPuzzleContent(textures);
 
     QApi.RunAfterCycle((sim, first) => {
       var seb = sim.field_3818;
@@ -146,8 +148,10 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures); }
         if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures); }
         if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures); }
-        if (partType == glyphDejection) { GlyphDejection.Activate(first,sim, seb, part, textures); }
+        if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures); }
         if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, textures); }
+        if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
+        if (partType == glyphLiquidation) { GlyphLiquidation.Activate(sim, seb, part, textures); }
       }
     });
   }
