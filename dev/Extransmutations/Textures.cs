@@ -52,4 +52,5 @@ public class Textures {
   public Texture liquidationBase = class_235.method_615("textures/parts/liquidation/base");
   public Texture liquidationGlow = class_235.method_615("textures/parts/liquidation/glow");
   public Texture liquidationStroke = class_235.method_615("textures/parts/liquidation/stroke");
+  public Texture quicksilverGlyphSpot = class_235.method_615("textures/parts/quicksilver_glyph");
 }
