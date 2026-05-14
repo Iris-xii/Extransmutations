@@ -26,8 +26,8 @@ public static class GlyphDejection {
       field_1539 = true, // Is a glyph (?)
       field_1549 = t.dejectionGlow, // Shadow/glow
       field_1550 = t.dejectionStroke, // Stroke/outline
-      field_1547 = t.dejectionBase, // Panel icon
-      field_1548 = t.dejectionBase, // Hovered panel icon
+      field_1547 = t.dejectionPanel, // Panel icon
+      field_1548 = t.dejectionPanel, // Hovered panel icon
       field_1540 = new HexIndex[]{
                 new(0, 0),
                 new(1, 0),

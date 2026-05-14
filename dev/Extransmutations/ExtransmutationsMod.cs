@@ -137,7 +137,8 @@ public class ExtransmutationsMod : QuintessentialMod {
     var glyphCompaction = GlyphCompaction.LoadPuzzleContent(textures);
     var glyphInduction = GlyphInduction.LoadPuzzleContent(textures);
 
-    HashSet<HexIndex> inductionSpots = new();
+    HashSet<HexIndex> inductionSaltSpots = new();
+    Dictionary<HexIndex,int> inductionHooksCount = new();
     QApi.RunAfterCycle((sim, first) => {
       var seb = sim.field_3818;
       var solution = seb.method_502();
@@ -146,10 +147,18 @@ public class ExtransmutationsMod : QuintessentialMod {
       //var struct122List = sim.field_3826;
       //var moleculeList = sim.field_3823;
       //var gripperList = sim.HeldGrippers;
-      inductionSpots.Clear();
+      inductionSaltSpots.Clear();
+      inductionHooksCount.Clear();
       foreach (Part part in partList) {
         var partType = part.method_1159();
-        if (partType == glyphInduction) { inductionSpots.Add(GlyphInduction.GetInductionSaltHex(part)); }
+        if (partType == glyphInduction) { inductionSaltSpots.Add(GlyphInduction.GetInductionSaltHex(part)); }
+        if (partType == glyphInduction) {
+          HexIndex hookSpot = GlyphInduction.GetHookHex(part);
+          int value = 0;
+          inductionHooksCount.TryGetValue(hookSpot, out value); 
+          value += 1; 
+          inductionHooksCount[hookSpot] = value;
+        }
       }
       foreach (Part part in partList) {
         var partType = part.method_1159();
@@ -161,7 +170,7 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
         if (partType == glyphLiquidation) { GlyphLiquidation.Activate(sim, seb, part, textures); }
         if (partType == glyphCompaction) { GlyphCompaction.Activate(sim, seb, part, textures); }
-        if (partType == glyphInduction) { GlyphInduction.Activate(inductionSpots,sim, seb, part, textures); }
+        if (partType == glyphInduction) { GlyphInduction.Activate(inductionHooksCount,inductionSaltSpots,sim, seb, part, textures); }
       }
     });
   }

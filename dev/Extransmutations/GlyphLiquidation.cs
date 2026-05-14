@@ -23,8 +23,8 @@ public static class GlyphLiquidation {
       field_1539 = true, // Is a glyph (?)
       field_1549 = t.liquidationGlow, // Shadow/glow
       field_1550 = t.liquidationStroke, // Stroke/outline
-      field_1547 = t.liquidationBase, // Panel icon
-      field_1548 = t.liquidationBase, // Hovered panel icon
+      field_1547 = t.liquidationPanel, // Panel icon
+      field_1548 = t.liquidationPanel, // Hovered panel icon
       field_1540 = new HexIndex[]{
                 new(0, 0),
                 new(0, 1),

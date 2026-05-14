@@ -63,4 +63,10 @@ public class Textures {
   public Texture markerLighting  = class_235.method_615("textures/parts/marker_lighting");
   public Texture markerDetails  = class_235.method_615("textures/parts/marker_details");
   public Texture fireGlyph = class_235.method_615("textures/parts/fire_glyph");
+  public Texture dejectionPanel = class_235.method_615("textures/panel/dejection_panel");
+  public Texture recombinationPanel = class_235.method_615("textures/panel/recombination_panel");
+  public Texture aerationPanel = class_235.method_615("textures/panel/aeration_panel");
+  public Texture liquidationPanel = class_235.method_615("textures/panel/liquidation_panel");
+  public Texture compactionPanel = class_235.method_615("textures/panel/compaction_panel");
+  public Texture inductionPanel = class_235.method_615("textures/panel/induction_panel");
 }

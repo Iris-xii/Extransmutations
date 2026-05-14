@@ -24,8 +24,8 @@ public static class GlyphCompaction {
       field_1539 = true, // Is a glyph (?)
       field_1549 = t.compactionGlow, // Shadow/glow
       field_1550 = t.compactionStroke, // Stroke/outline
-      field_1547 = t.compactionBase, // Panel icon
-      field_1548 = t.compactionBase, // Hovered panel icon
+      field_1547 = t.compactionPanel, // Panel icon
+      field_1548 = t.compactionPanel, // Hovered panel icon
       field_1540 = new HexIndex[]{
                 new(0, 0), 
             }, // Spaces used

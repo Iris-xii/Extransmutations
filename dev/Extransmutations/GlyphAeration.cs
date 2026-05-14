@@ -23,8 +23,8 @@ public static class GlyphAeration {
       field_1539 = true, // Is a glyph (?)
       field_1549 = t.aerationGlow, // Shadow/glow
       field_1550 = t.aerationStroke, // Stroke/outline
-      field_1547 = t.aerationBase, // Panel icon
-      field_1548 = t.aerationBase, // Hovered panel icon
+      field_1547 = t.aerationPanel, // Panel icon
+      field_1548 = t.aerationPanel, // Hovered panel icon
       field_1540 = new HexIndex[]{
                 new(0, 0),
                 new(1, 0),
