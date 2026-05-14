@@ -41,9 +41,9 @@ public static class GlyphCompletion {
       renderer.method_528(t.bowlProjTexture, new HexIndex(1, -1), Vector2.Zero);
       renderer.method_528(t.bowlProjTexture, new HexIndex(0, 1), Vector2.Zero);
 
-      renderer.method_529(t.cardinalCompletionGlyphAny, new HexIndex(1, 0), Vector2.Zero);
-      renderer.method_529(t.cardinalCompletionGlyphAny, new HexIndex(0, 0), Vector2.Zero);
-      renderer.method_529(t.cardinalCompletionGlyphAny, new HexIndex(1, -1), Vector2.Zero);
+      renderer.method_529(t.anyCardinal, new HexIndex(1, 0), Vector2.Zero);
+      renderer.method_529(t.anyCardinal, new HexIndex(0, 0), Vector2.Zero);
+      renderer.method_529(t.anyCardinal, new HexIndex(1, -1), Vector2.Zero);
       renderer.method_529(t.saltBowlGlyphSpot, new HexIndex(0, 1), Vector2.Zero);
     });
     QApi.AddPartTypeToPanel(cardinalCompletion, false);

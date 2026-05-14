@@ -47,8 +47,8 @@ public class ExtransmutationsMod : QuintessentialMod {
     catch (Exception e) {
       Logger.Log($"{e}");
     }
-  } 
-  private static bool SupressOutputIfFalse(bool mustBeTrue, Sim s) { 
+  }
+  private static bool SupressOutputIfFalse(bool mustBeTrue, Sim s) {
     if (!mustBeTrue) { return false; }
     List<HexIndex> okList = new();
     foreach (Part part in s.field_3818.method_502().field_3919) {
@@ -134,7 +134,10 @@ public class ExtransmutationsMod : QuintessentialMod {
     var glyphRecombination = GlyphRecombination.LoadPuzzleContent(textures);
     var glyphAeration = GlyphAeration.LoadPuzzleContent(textures);
     var glyphLiquidation = GlyphLiquidation.LoadPuzzleContent(textures);
+    var glyphCompaction = GlyphCompaction.LoadPuzzleContent(textures);
+    var glyphInduction = GlyphInduction.LoadPuzzleContent(textures);
 
+    HashSet<HexIndex> inductionSpots = new();
     QApi.RunAfterCycle((sim, first) => {
       var seb = sim.field_3818;
       var solution = seb.method_502();
@@ -143,6 +146,11 @@ public class ExtransmutationsMod : QuintessentialMod {
       //var struct122List = sim.field_3826;
       //var moleculeList = sim.field_3823;
       //var gripperList = sim.HeldGrippers;
+      inductionSpots.Clear();
+      foreach (Part part in partList) {
+        var partType = part.method_1159();
+        if (partType == glyphInduction) { inductionSpots.Add(GlyphInduction.GetInductionSaltHex(part)); }
+      }
       foreach (Part part in partList) {
         var partType = part.method_1159();
         if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures); }
@@ -152,6 +160,8 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, textures); }
         if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
         if (partType == glyphLiquidation) { GlyphLiquidation.Activate(sim, seb, part, textures); }
+        if (partType == glyphCompaction) { GlyphCompaction.Activate(sim, seb, part, textures); }
+        if (partType == glyphInduction) { GlyphInduction.Activate(inductionSpots,sim, seb, part, textures); }
       }
     });
   }

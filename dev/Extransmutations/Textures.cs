@@ -19,7 +19,7 @@ public class Textures {
   public Texture transmutationCycleSpotTexture = class_235.method_615("textures/parts/cardinal_cycle_symbols");
   public Texture calcifySpotTexture = class_235.method_615("textures/parts/calcinator_symbols");
   public Texture saltBowlGlyphSpot = class_235.method_615("textures/parts/salt_glyph");
-  public Texture cardinalCompletionGlyphAny = class_235.method_615("textures/parts/any_cardinal_completion");
+  //public Texture cardinalCompletionGlyphAny = class_235.method_615("textures/parts/any_cardinal_completion");
   public Texture diamondGlow = class_235.method_615("textures/select/diamond_glow");
   public Texture oneByThreeGlow = class_235.method_615("textures/select/1by3_glow");
   public Texture completionPanel = class_235.method_615("textures/panel/completion_panel");
@@ -53,4 +53,14 @@ public class Textures {
   public Texture liquidationGlow = class_235.method_615("textures/parts/liquidation/glow");
   public Texture liquidationStroke = class_235.method_615("textures/parts/liquidation/stroke");
   public Texture quicksilverGlyphSpot = class_235.method_615("textures/parts/quicksilver_glyph");
+  public Texture compactionBase = class_235.method_615("textures/parts/compaction/base");
+  public Texture compactionGlow = class_235.method_615("textures/parts/compaction/glow");
+  public Texture compactionStroke = class_235.method_615("textures/parts/compaction/stroke");
+  public Texture earthGlyph = class_235.method_615("textures/parts/earth_glyph");
+  public Texture inductionBase = class_235.method_615("textures/parts/induction/base");
+  public Texture inductionGlow = class_235.method_615("textures/parts/induction/glow");
+  public Texture inductionStroke = class_235.method_615("textures/parts/induction/stroke");
+  public Texture markerLighting  = class_235.method_615("textures/parts/marker_lighting");
+  public Texture markerDetails  = class_235.method_615("textures/parts/marker_details");
+  public Texture fireGlyph = class_235.method_615("textures/parts/fire_glyph");
 }
