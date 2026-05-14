@@ -56,46 +56,52 @@ public static class GlyphInduction {
     return part.method_1161() + new HexIndex(1, 0).Rotated(part.method_1163());
   }
 
-  public static void Activate(Dictionary<HexIndex, int> inductionHooksCount, HashSet<HexIndex> inductionSaltSpots, Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(
+    Dictionary<Atom, AtomType> previousTypeOfAtom, 
+    Dictionary<HexIndex, int> inductionHooksCount,
+    HashSet<HexIndex> inductionSaltSpots,
+    Sim sim,
+    SolutionEditorBase seb,
+    Part part,
+    Textures t) {
     Dictionary<Part, PartSimState> partSimStates = sim.field_3821;
     PartSimState pss = partSimStates[part];
-    DynamicData dyn_pss = new(pss);
-    object stateOb = dyn_pss.Get("state");
-    InductionState state;
-    if (stateOb is not null) {
-      state = (InductionState)stateOb;
-    }
-    else {
-      state = new();
-    }
-    AtomReference hookedCur = null;
+
+    //DynamicData dyn_pss = new(pss);
+    //object stateOb = dyn_pss.Get("state");
+    //InductionState state;
+    //if (stateOb is not null) state = (InductionState)stateOb;
+    //else state = new(); 
+
     if (sim.FindAtomRelative(part, new(0, 0)).method_99(out AtomReference salt) &&
-    sim.FindAtomRelative(part, new(1, 0)).method_99(out hookedCur)) {
+    sim.FindAtomRelative(part, new(1, 0)).method_99(out AtomReference hookedCur)) {
       //foreach (var item in inductionSaltSpots) {
       //  Logger.Log($"{item} >>> {part.method_1161()}");
       //}
       int hooksShared = 0;
-      inductionHooksCount.TryGetValue(GetHookHex(part),out hooksShared);
+      inductionHooksCount.TryGetValue(GetHookHex(part), out hooksShared);
       bool doTransmute =
         salt.field_2280 == VanillaAtoms.salt
-        && state.previousAR is not null
-        && state.previousType is not null
+        && previousTypeOfAtom[hookedCur.field_2279] is not null
         && (!inductionSaltSpots.Contains(GetHookHex(part)))
         && (hooksShared <= 1)
-        && state.previousAR.field_2279 == hookedCur.field_2279
-        && state.previousType != hookedCur.field_2280;
-        //&& hookedCur.field_2280 != VanillaAtoms.salt;
+        && previousTypeOfAtom[hookedCur.field_2279] != hookedCur.field_2280;
       //if(state.previousAR is not null && state.previousType is not null) {
-      //  Logger.Log($"{state.previousAR.field_2279 == hookedCur.field_2279} ::: {state.previousType != hookedCur.field_2280} :: {hookedCur.field_2280 != VanillaAtoms.salt}");
-      //
+      //  Logger.Log($"[extransmutations] "+
+      //  $"{(!inductionSaltSpots.Contains(GetHookHex(part)))}"
+      //  +$"{(hooksShared <= 1)}"
+      //  +$"{state.previousAR.field_2279 == hookedCur.field_2279}"
+      //  +$"{state.previousType != hookedCur.field_2280}"
+      //  );
+      //}
       if (doTransmute) {
         Brimstone.API.ChangeAtom(salt, VanillaAtoms.fire);
         salt.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, salt.field_2280, class_238.field_1989.field_81.field_614, 60f); //30f
       }
     }
-    state.previousAR = hookedCur ?? null;
-    state.previousType = hookedCur?.field_2280;
-    dyn_pss.Set("state", state);
+    //state.previousAR = hookedCur ?? null;
+    //state.previousType = hookedCur?.field_2280;
+    //dyn_pss.Set("state", state);
   }
 
   struct InductionState {

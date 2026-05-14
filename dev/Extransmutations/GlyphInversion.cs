@@ -17,7 +17,7 @@ public static class GlyphInversion {
     PartType cardinalInversion = new() {
       field_1528 = "extransmutations-cardinal-inversion", // ID
       field_1529 = class_134.method_253("Glyph of Cardinal Inversion", string.Empty), // Name
-      field_1530 = class_134.method_253("The glyph of cardinal inversion transmutes two cardinals into an opposing cardinal and salt.", string.Empty), // Description
+      field_1530 = class_134.method_253("The glyph of cardinal inversion transmutes two matching cardinals into an opposing cardinal and salt.", string.Empty), // Description
       field_1531 = 10, // Cost
       field_1539 = true, // Is a glyph (?)
       field_1549 = t.cardinalInversionGlow, // Shadow/glow

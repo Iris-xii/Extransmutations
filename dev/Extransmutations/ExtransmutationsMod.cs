@@ -138,11 +138,47 @@ public class ExtransmutationsMod : QuintessentialMod {
     var glyphInduction = GlyphInduction.LoadPuzzleContent(textures);
 
     HashSet<HexIndex> inductionSaltSpots = new();
-    Dictionary<HexIndex,int> inductionHooksCount = new();
+    Dictionary<HexIndex, int> inductionHooksCount = new();
+    Dictionary<Atom, AtomType> previousTypeOfAtom = new();
+    Dictionary<Atom, AtomType> currentTypeOfAtom = new();
+    bool inductionExists = false;
     QApi.RunAfterCycle((sim, first) => {
-      var seb = sim.field_3818;
+      SolutionEditorBase seb = sim.field_3818;
       var solution = seb.method_502();
       var partList = solution.field_3919;
+      int cycle = sim.method_1818(); 
+      if (cycle == 0) { // induction hack
+        inductionExists = partList.Any((a) => { return a.method_1159() == glyphInduction; });
+        Dictionary<Part, int> originalPosition = new();
+        for (int i = 0; i < partList.Count(); i++) {
+          originalPosition.Add(partList[i], i);
+        }
+        partList.Sort((a, b) => {
+          var aType = a.method_1159();
+          var bType = b.method_1159();
+          int tieBreaker = 0;
+          var aIdx = originalPosition[a];
+          var bIdx = originalPosition[b];
+          tieBreaker = aIdx.CompareTo(bIdx);
+          int inductionOrder = 0;
+          if (aType == glyphInduction && bType != glyphInduction) inductionOrder = 1;
+          if (aType != glyphInduction && bType == glyphInduction) inductionOrder = -1;
+          if (inductionOrder != 0) {
+            return inductionOrder;
+          }
+          else {
+            return tieBreaker;
+          }
+        });
+      }
+      if (inductionExists) {
+        foreach (Molecule molecule in sim.field_3823) {
+          foreach (var kv in molecule.method_1100()) {
+            Atom a = kv.Value;
+            currentTypeOfAtom[a] = a.field_2275;
+          }
+        }
+      }
       //var partSimStates = sim.field_3821;
       //var struct122List = sim.field_3826;
       //var moleculeList = sim.field_3823;
@@ -155,8 +191,8 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (partType == glyphInduction) {
           HexIndex hookSpot = GlyphInduction.GetHookHex(part);
           int value = 0;
-          inductionHooksCount.TryGetValue(hookSpot, out value); 
-          value += 1; 
+          inductionHooksCount.TryGetValue(hookSpot, out value);
+          value += 1;
           inductionHooksCount[hookSpot] = value;
         }
       }
@@ -170,8 +206,11 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
         if (partType == glyphLiquidation) { GlyphLiquidation.Activate(sim, seb, part, textures); }
         if (partType == glyphCompaction) { GlyphCompaction.Activate(sim, seb, part, textures); }
-        if (partType == glyphInduction) { GlyphInduction.Activate(inductionHooksCount,inductionSaltSpots,sim, seb, part, textures); }
+        if (partType == glyphInduction) { GlyphInduction.Activate(previousTypeOfAtom, inductionHooksCount, inductionSaltSpots, sim, seb, part, textures); }
       }
+
+      previousTypeOfAtom = currentTypeOfAtom;
+      currentTypeOfAtom = new();
     });
   }
   public override void Unload() {
