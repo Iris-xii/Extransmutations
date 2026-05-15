@@ -10,7 +10,8 @@ using PartTypes = class_191;
 using Permissions = enum_149;
 using AtomTypes = class_175;
 using Texture = class_256;
-
+  
+//dotnet build;rm ..\..\Extransmutations.dll;cp .\bin\Debug\net4.5.2\Extransmutations.dll ..\..\Extransmutations.dll
 public class ExtransmutationsMod : QuintessentialMod {
 
   public static AtomType Ichor;
@@ -23,7 +24,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     //  typeof(Sim).GetMethod("method_1825", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public),
     //  OnSimMethod1825); 
   }
-  private static void ILMethod1832(ILContext il) {
+  private static void ILMethod1832(ILContext il) { 
     try {
       ILCursor c = new(il);
       c.GotoNext(MoveType.After,
@@ -74,7 +75,8 @@ public class ExtransmutationsMod : QuintessentialMod {
         Atom atom = kv.Value;
         if (atom.field_2275 == Ichor) {
           HexIndex atomHex = kv.Key;
-          if (!okList.Contains(atomHex)) { return false; }
+          if (!okList.Contains(atomHex)) {  
+            return false; }
         }
       }
     }

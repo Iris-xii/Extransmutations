@@ -63,7 +63,7 @@ public static class GlyphCompaction {
           count += counts_as;
         }
       }
-      Logger.Log($"[extransmutations-bond-count]: {count}");
+      //Logger.Log($"[extransmutations-bond-count]: {count}");
       bool doTransmute = 
         (salt.field_2280 == VanillaAtoms.salt) 
         && count >= 3;
