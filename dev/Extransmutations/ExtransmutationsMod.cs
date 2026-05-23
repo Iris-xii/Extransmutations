@@ -10,7 +10,8 @@ using PartTypes = class_191;
 using Permissions = enum_149;
 using AtomTypes = class_175;
 using Texture = class_256;
-  
+using BF = System.Reflection.BindingFlags;
+
 //dotnet build;rm ..\..\Extransmutations.dll;cp .\bin\Debug\net4.5.2\Extransmutations.dll ..\..\Extransmutations.dll
 public class ExtransmutationsMod : QuintessentialMod {
 
@@ -20,11 +21,16 @@ public class ExtransmutationsMod : QuintessentialMod {
   private ILHook ilhook_orig_method_1832;
 
   public override void Load() {
+    if (Brimstone.API.IsModLoaded("Extransmissions")
+    && Brimstone.API.GetMod("Extransmissions").method_99(out var QM)
+    && QM is Extransmissions.ExtransmissionsMod EM) {
+      EM.shouldSuppressOutputs.Add((sim) => !SupressOutputIfFalse(true, sim));
+    }
     //hook_sim_method_1825 = new Hook(
     //  typeof(Sim).GetMethod("method_1825", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public),
     //  OnSimMethod1825); 
   }
-  private static void ILMethod1832(ILContext il) { 
+  private static void ILMethod1832(ILContext il) {
     try {
       ILCursor c = new(il);
       c.GotoNext(MoveType.After,
@@ -75,8 +81,9 @@ public class ExtransmutationsMod : QuintessentialMod {
         Atom atom = kv.Value;
         if (atom.field_2275 == Ichor) {
           HexIndex atomHex = kv.Key;
-          if (!okList.Contains(atomHex)) {  
-            return false; }
+          if (!okList.Contains(atomHex)) {
+            return false;
+          }
         }
       }
     }
@@ -115,6 +122,8 @@ public class ExtransmutationsMod : QuintessentialMod {
     }
     return orig(s);
   }
+
+
   public override void PostLoad() {
     ilhook_orig_method_1832 = new ILHook(
       typeof(Sim).GetMethod("orig_method_1832", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic),
@@ -147,8 +156,10 @@ public class ExtransmutationsMod : QuintessentialMod {
     QApi.RunAfterCycle((sim, first) => {
       SolutionEditorBase seb = sim.field_3818;
       var solution = seb.method_502();
+
       var partList = solution.field_3919;
-      int cycle = sim.method_1818(); 
+      int cycle = sim.method_1818();
+
       if (cycle == 0) { // induction hack
         inductionExists = partList.Any((a) => { return a.method_1159() == glyphInduction; });
         Dictionary<Part, int> originalPosition = new();

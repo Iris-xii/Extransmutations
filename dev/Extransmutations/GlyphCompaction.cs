@@ -47,7 +47,7 @@ public static class GlyphCompaction {
 
   public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
     if(sim.FindAtomRelative(part,new(0,0)).method_99(out AtomReference salt)) {
-      Molecule m = salt.field_2277;
+      Molecule m = salt.field_2277; 
       HexIndex saltLocation = salt.field_2278;
       var bonds = m.method_1101();
       int count = 0;

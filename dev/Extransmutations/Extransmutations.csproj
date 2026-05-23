@@ -10,6 +10,9 @@
     <Reference Include="Brimstone">
 		    <HintPath>bin\Debug\net452\Brimstone.dll</HintPath>
 		</Reference>
+    <Reference Include="Extransmissions">
+		    <HintPath>bin\Debug\net452\Extransmissions.dll</HintPath>
+		</Reference>
     <Reference Include="MMHOOK_ModdedLightning">
       <HintPath>bin\Debug\net452\MMHOOK_ModdedLightning.dll</HintPath>
     </Reference>
