@@ -47,7 +47,7 @@ public static class GlyphRevolution {
     QApi.AddPartTypeToPanel(cardinalCycle, false);
     return cardinalCycle;
   }
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part,Textures t) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t, bool doExtraordinary) {
     if (sim.FindAtomRelative(part, new(-1, 0)).method_99(out AtomReference atomCal1) &&
               sim.FindAtomRelative(part, new(0, 0)).method_99(out AtomReference atomTransmute) &&
               sim.FindAtomRelative(part, new(1, 0)).method_99(out AtomReference atomCal2) &&
@@ -74,6 +74,22 @@ public static class GlyphRevolution {
       else if (sharedType == AtomTypes.field_1679) // Water
       {
         targetType = AtomTypes.field_1677;
+      }
+      else if (doExtraordinary
+        && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.bellum) {
+        targetType = ExtransmutationsMod.uncommonPrimesAtoms.obscurum;
+      }
+      else if (doExtraordinary
+        && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.lux) {
+        targetType = ExtransmutationsMod.uncommonPrimesAtoms.bellum;
+      }
+      else if (doExtraordinary
+        && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.pax) {
+        targetType = ExtransmutationsMod.uncommonPrimesAtoms.lux;
+      }
+      else if (doExtraordinary
+        && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.obscurum) {
+        targetType = ExtransmutationsMod.uncommonPrimesAtoms.pax;
       }
       else {
         transOk = false;

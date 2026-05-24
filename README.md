@@ -34,5 +34,8 @@ The Glyph of Dejection transmutes a cardinal into an atom of Ichor and produces 
 ## Glyph of Recombination
 The Glyph of Recombination destroys two atoms of salt to turn an atom of Ichor back into salt.
 
+## Glyph of the Extraordinary (Requires UncommonAlchemicalPrimes)
+Compat glyph enabling extra transmutations with UncommonAlchemicalPrimes' atoms.
+
 
 Thanks to Greenfield for general helpfulness all around, Brimstone, and the graphics for the Dejection iris!

@@ -16,16 +16,12 @@ using BF = System.Reflection.BindingFlags;
 public class ExtransmutationsMod : QuintessentialMod {
 
   public static AtomType Ichor;
+  public static UncommonPrimesAtoms uncommonPrimesAtoms = new();
 
   public Hook hook_sim_method_1825;
   private ILHook ilhook_orig_method_1832;
 
   public override void Load() {
-    if (Brimstone.API.IsModLoaded("Extransmissions")
-    && Brimstone.API.GetMod("Extransmissions").method_99(out var QM)
-    && QM is Extransmissions.ExtransmissionsMod EM) {
-      EM.shouldSuppressOutputs.Add((sim) => !SupressOutputIfFalse(true, sim));
-    }
     //hook_sim_method_1825 = new Hook(
     //  typeof(Sim).GetMethod("method_1825", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public),
     //  OnSimMethod1825); 
@@ -129,6 +125,22 @@ public class ExtransmutationsMod : QuintessentialMod {
       typeof(Sim).GetMethod("orig_method_1832", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic),
       ILMethod1832
     );
+    if (Brimstone.API.IsModLoaded("Extransmissions")
+    && Brimstone.API.GetMod("Extransmissions").method_99(out var QM)
+    && QM is Extransmissions.ExtransmissionsMod EM) {
+      EM.shouldSuppressOutputs.Add((sim) => !SupressOutputIfFalse(true, sim));
+    }
+    if (Brimstone.API.IsModLoaded("UncommonPrimes")) {
+      try {
+        uncommonPrimesAtoms = new UncommonPrimesAtoms() {
+          bellum = QApi.ModAtomTypes.Single(at => at.QuintAtomType == "UncommonPrimes:bellum"),
+          obscurum = QApi.ModAtomTypes.Single(at => at.QuintAtomType == "UncommonPrimes:obscurum"),
+          lux = QApi.ModAtomTypes.Single(at => at.QuintAtomType == "UncommonPrimes:lux"),
+          pax = QApi.ModAtomTypes.Single(at => at.QuintAtomType == "UncommonPrimes:pax"),
+        };
+      }
+      catch (InvalidOperationException) { }
+    }
   }
   public override void LoadPuzzleContent() {
     Ichor = Brimstone.API.CreateNormalAtom(81, "Extransmutations", "Ichor",
@@ -147,6 +159,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     var glyphLiquidation = GlyphLiquidation.LoadPuzzleContent(textures);
     var glyphCompaction = GlyphCompaction.LoadPuzzleContent(textures);
     var glyphInduction = GlyphInduction.LoadPuzzleContent(textures);
+    var glyphExtraordinary = GlyphExtraordinary.LoadPuzzleContent(textures);
 
     HashSet<HexIndex> inductionSaltSpots = new();
     Dictionary<HexIndex, int> inductionHooksCount = new();
@@ -198,6 +211,7 @@ public class ExtransmutationsMod : QuintessentialMod {
       //var gripperList = sim.HeldGrippers;
       inductionSaltSpots.Clear();
       inductionHooksCount.Clear();
+      bool glyphExtraordinaryExists = false;
       foreach (Part part in partList) {
         var partType = part.method_1159();
         if (partType == glyphInduction) { inductionSaltSpots.Add(GlyphInduction.GetInductionSaltHex(part)); }
@@ -208,12 +222,15 @@ public class ExtransmutationsMod : QuintessentialMod {
           value += 1;
           inductionHooksCount[hookSpot] = value;
         }
+        glyphExtraordinaryExists = 
+          ExtransmutationsMod.uncommonPrimesAtoms.bellum is not null
+          && (glyphExtraordinaryExists || partType == glyphExtraordinary);
       }
       foreach (Part part in partList) {
         var partType = part.method_1159();
-        if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures); }
-        if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures); }
-        if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures); }
+        if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
+        if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
+        if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
         if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures); }
         if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, textures); }
         if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
@@ -230,4 +247,14 @@ public class ExtransmutationsMod : QuintessentialMod {
     hook_sim_method_1825 = null;
     ilhook_orig_method_1832 = null;
   }
+
+#nullable enable
+  public struct UncommonPrimesAtoms {
+    public AtomType? bellum = null;
+    public AtomType? obscurum = null;
+    public AtomType? lux = null;
+    public AtomType? pax = null;
+    public UncommonPrimesAtoms() { }
+  }
+#nullable disable
 }

@@ -49,50 +49,94 @@ public static class GlyphCompletion {
     QApi.AddPartTypeToPanel(cardinalCompletion, false);
     return cardinalCompletion;
   }
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t, bool doExtraordinary) {
     if (sim.FindAtomRelative(part, new HexIndex(1, 0)).method_99(out AtomReference c1) &&
             sim.FindAtomRelative(part, new HexIndex(0, 0)).method_99(out AtomReference c2) &&
             sim.FindAtomRelative(part, new HexIndex(1, -1)).method_99(out AtomReference c3) &&
             sim.FindAtomRelative(part, new HexIndex(0, 1)).method_99(out AtomReference salt)) {
-      AtomReference[] cardinalRefs = { c1, c2, c3 };
-      AtomReference[] allAtomRefs = { c1, c2, c3, salt };
-      bool hasSalt = salt.field_2280 == Brimstone.API.VanillaAtoms.salt;
-      AtomType[] cardinals_types = {
+      { // NORMAL
+        AtomReference[] cardinalRefs = { c1, c2, c3 };
+        AtomReference[] allAtomRefs = { c1, c2, c3, salt };
+        bool hasSalt = salt.field_2280 == Brimstone.API.VanillaAtoms.salt;
+        AtomType[] cardinals_types = {
                         Brimstone.API.VanillaAtoms.water,
                         Brimstone.API.VanillaAtoms.fire,
                         Brimstone.API.VanillaAtoms.air,
                         Brimstone.API.VanillaAtoms.earth,
                     };
-      byte[] cardinalsCount = { 0, 0, 0, 0 };
-      for (int i = 0; i < 4; i++) {
-        foreach (AtomReference ar in cardinalRefs) {
-          if (ar.field_2280 == cardinals_types[i]) {
-            cardinalsCount[i] += 1;
+        byte[] cardinalsCount = { 0, 0, 0, 0 };
+        for (int i = 0; i < 4; i++) {
+          foreach (AtomReference ar in cardinalRefs) {
+            if (ar.field_2280 == cardinals_types[i]) {
+              cardinalsCount[i] += 1;
+            }
           }
         }
-      }
-      AtomType maybeTarget = Brimstone.API.VanillaAtoms.salt; //this crashes if null, for some reason, so dummy salt it is
-      if (cardinalsCount.SequenceEqual(new byte[] { 1, 1, 1, 0 })) {
-        maybeTarget = Brimstone.API.VanillaAtoms.earth;
-      }
-      if (cardinalsCount.SequenceEqual(new byte[] { 0, 1, 1, 1 })) {
-        maybeTarget = Brimstone.API.VanillaAtoms.water;
-      }
-      if (cardinalsCount.SequenceEqual(new byte[] { 1, 0, 1, 1 })) {
-        maybeTarget = Brimstone.API.VanillaAtoms.fire;
-      }
-      if (cardinalsCount.SequenceEqual(new byte[] { 1, 1, 0, 1 })) {
-        maybeTarget = Brimstone.API.VanillaAtoms.air;
-      }
-      if (hasSalt && (maybeTarget != Brimstone.API.VanillaAtoms.salt)) { //transmute!
-        foreach (AtomReference ar in allAtomRefs) {
-          ar.field_2277.method_1106(maybeTarget, ar.field_2278);
-          ar.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, ar.field_2280, class_238.field_1989.field_81.field_614, 60f);
+        AtomType maybeTarget = Brimstone.API.VanillaAtoms.salt; //this crashes if null, for some reason, so dummy salt it is
+        if (cardinalsCount.SequenceEqual(new byte[] { 1, 1, 1, 0 })) {
+          maybeTarget = Brimstone.API.VanillaAtoms.earth;
         }
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        class_238.field_1991.field_1844.method_28(seb.method_506());
+        if (cardinalsCount.SequenceEqual(new byte[] { 0, 1, 1, 1 })) {
+          maybeTarget = Brimstone.API.VanillaAtoms.water;
+        }
+        if (cardinalsCount.SequenceEqual(new byte[] { 1, 0, 1, 1 })) {
+          maybeTarget = Brimstone.API.VanillaAtoms.fire;
+        }
+        if (cardinalsCount.SequenceEqual(new byte[] { 1, 1, 0, 1 })) {
+          maybeTarget = Brimstone.API.VanillaAtoms.air;
+        }
+        if (hasSalt && (maybeTarget != Brimstone.API.VanillaAtoms.salt)) { //transmute!
+          foreach (AtomReference ar in allAtomRefs) {
+            ar.field_2277.method_1106(maybeTarget, ar.field_2278);
+            ar.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, ar.field_2280, class_238.field_1989.field_81.field_614, 60f);
+          }
+          //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
+          //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
+          //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
+          class_238.field_1991.field_1844.method_28(seb.method_506());
+        }
+      }
+      if(doExtraordinary) { // ORDINALS
+        AtomReference[] ordinalRefs = { c1, c2, c3 };
+        AtomReference[] allAtomRefs = { c1, c2, c3, salt };
+        bool hasSalt = salt.field_2280 == Brimstone.API.VanillaAtoms.salt;
+        AtomType[] ordinals_types = {
+                        ExtransmutationsMod.uncommonPrimesAtoms.bellum,
+                        ExtransmutationsMod.uncommonPrimesAtoms.pax,
+                        ExtransmutationsMod.uncommonPrimesAtoms.lux,
+                        ExtransmutationsMod.uncommonPrimesAtoms.obscurum,
+                    };
+        byte[] ordinalsCount = { 0, 0, 0, 0 };
+        for (int i = 0; i < 4; i++) {
+          foreach (AtomReference ar in ordinalRefs) {
+            if (ar.field_2280 == ordinals_types[i]) {
+              ordinalsCount[i] += 1;
+            }
+          }
+        }
+        AtomType maybeTarget = Brimstone.API.VanillaAtoms.salt; //this crashes if null, for some reason, so dummy salt it is
+        if (ordinalsCount.SequenceEqual(new byte[] { 1, 1, 1, 0 })) {
+          maybeTarget = ExtransmutationsMod.uncommonPrimesAtoms.obscurum;
+        }
+        if (ordinalsCount.SequenceEqual(new byte[] { 0, 1, 1, 1 })) {
+          maybeTarget = ExtransmutationsMod.uncommonPrimesAtoms.bellum;
+        }
+        if (ordinalsCount.SequenceEqual(new byte[] { 1, 0, 1, 1 })) {
+          maybeTarget = ExtransmutationsMod.uncommonPrimesAtoms.pax;
+        }
+        if (ordinalsCount.SequenceEqual(new byte[] { 1, 1, 0, 1 })) {
+          maybeTarget = ExtransmutationsMod.uncommonPrimesAtoms.lux;
+        }
+        if (hasSalt && (maybeTarget != Brimstone.API.VanillaAtoms.salt)) { //transmute!
+          foreach (AtomReference ar in allAtomRefs) {
+            ar.field_2277.method_1106(maybeTarget, ar.field_2278);
+            ar.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, ar.field_2280, class_238.field_1989.field_81.field_614, 60f);
+          }
+          //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
+          //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
+          //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
+          class_238.field_1991.field_1844.method_28(seb.method_506());
+        }
       }
     }
   }

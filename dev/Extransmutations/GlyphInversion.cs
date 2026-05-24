@@ -44,7 +44,7 @@ public static class GlyphInversion {
     QApi.AddPartTypeToPanel(cardinalInversion, false);
     return cardinalInversion;
   }
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t, bool doExtraordinary) {
     if (sim.FindAtomRelative(part, new(0, 0)).method_99(out AtomReference atomTransmute) &&
             sim.FindAtomRelative(part, new(1, 0)).method_99(out AtomReference atomCalcify) &&
             /*!atomTransmute.field_2282 && !atomCalcify.field_2282 && */
@@ -70,6 +70,22 @@ public static class GlyphInversion {
       else if (sharedType == AtomTypes.field_1679) // Water
       {
         targetType = AtomTypes.field_1678;
+      }
+      else if (doExtraordinary
+          && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.lux) {
+        targetType = ExtransmutationsMod.uncommonPrimesAtoms.obscurum;
+      }
+      else if (doExtraordinary
+          && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.obscurum) {
+        targetType = ExtransmutationsMod.uncommonPrimesAtoms.lux;
+      }
+      else if (doExtraordinary
+          && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.pax) {
+        targetType = ExtransmutationsMod.uncommonPrimesAtoms.bellum;
+      }
+      else if (doExtraordinary
+          && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.bellum) {
+        targetType = ExtransmutationsMod.uncommonPrimesAtoms.pax;
       }
       else {
         transOk = false;

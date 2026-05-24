@@ -69,4 +69,9 @@ public class Textures {
   public Texture liquidationPanel = class_235.method_615("textures/panel/liquidation_panel");
   public Texture compactionPanel = class_235.method_615("textures/panel/compaction_panel");
   public Texture inductionPanel = class_235.method_615("textures/panel/induction_panel");
+  public Texture extraordinaryBase = class_235.method_615("textures/parts/extraordinary/base");
+  public Texture extraordinaryGlow = class_235.method_615("textures/parts/extraordinary/glow");
+  public Texture extraordinaryStroke = class_235.method_615("textures/parts/extraordinary/stroke");
+  public Texture extraordinaryGlyph = class_235.method_615("textures/parts/extraordinary_glyph");
+  public Texture extraordinaryPanel = class_235.method_615("textures/parts/extraordinary/base"); //TODO
 }
