@@ -73,5 +73,10 @@ public class Textures {
   public Texture extraordinaryGlow = class_235.method_615("textures/parts/extraordinary/glow");
   public Texture extraordinaryStroke = class_235.method_615("textures/parts/extraordinary/stroke");
   public Texture extraordinaryGlyph = class_235.method_615("textures/parts/extraordinary_glyph");
-  public Texture extraordinaryPanel = class_235.method_615("textures/parts/extraordinary/base"); //TODO
+  public Texture extraordinaryPanel = class_235.method_615("textures/parts/extraordinary/panel");  
+  public Texture restorationBase = class_235.method_615("textures/parts/et_restoration/base");
+  public Texture restorationGlow = class_235.method_615("textures/parts/et_restoration/glow");
+  public Texture restorationStroke = class_235.method_615("textures/parts/et_restoration/stroke");
+  public Texture restorationPanel = class_235.method_615("textures/parts/et_restoration/panel");
+  public Sound disposalSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_disposal").method_1087();
 }

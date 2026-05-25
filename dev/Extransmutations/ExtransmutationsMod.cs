@@ -160,6 +160,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     var glyphCompaction = GlyphCompaction.LoadPuzzleContent(textures);
     var glyphInduction = GlyphInduction.LoadPuzzleContent(textures);
     var glyphExtraordinary = GlyphExtraordinary.LoadPuzzleContent(textures);
+    var glyphRestoration = GlyphRestoration.LoadPuzzleContent(textures);
 
     HashSet<HexIndex> inductionSaltSpots = new();
     Dictionary<HexIndex, int> inductionHooksCount = new();
@@ -231,6 +232,7 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
         if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
         if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
+        if (partType == glyphRestoration) { GlyphRestoration.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
         if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures); }
         if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, textures); }
         if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
