@@ -31,10 +31,16 @@ Ichor (new atom) suppresses outputs for as long as it is on the board. Get rid o
 ### Glyph of Dejection
 The Glyph of Dejection transmutes a cardinal into an atom of Ichor and produces two cardinals one step backwards along the Cardinal Cycle (Fire -> x2 Earth -> x2 Water -> x2 Air -> x2 Fire)
 
-## Glyph of Recombination
+### Glyph of Recombination
 The Glyph of Recombination destroys two atoms of salt to turn an atom of Ichor back into salt.
 
-## Glyph of the Extraordinary (Requires UncommonAlchemicalPrimes)
+### Glyph of Restoration
+The Glyph of Restoration destroys all atoms of ichor present in the molecule over the ichor bowl and all atoms of the cardinal over the cardinal bowl when the number of ichor atoms and the number of said cardinal atoms present is exactly the same.
+
+
+## Mod Compat Glyphs
+
+### Glyph of the Extraordinary (Requires UncommonAlchemicalPrimes)
 Compat glyph enabling extra transmutations with UncommonAlchemicalPrimes' atoms.
 
 
