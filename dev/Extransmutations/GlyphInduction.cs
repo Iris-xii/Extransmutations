@@ -82,6 +82,7 @@ public static class GlyphInduction {
       inductionHooksCount.TryGetValue(GetHookHex(part), out hooksShared);
       bool doTransmute =
         salt.field_2280 == VanillaAtoms.salt
+        && previousTypeOfAtom.ContainsKey(hookedCur.field_2279)
         && previousTypeOfAtom[hookedCur.field_2279] is not null
         && (!inductionSaltSpots.Contains(GetHookHex(part)))
         && (hooksShared <= 1)
