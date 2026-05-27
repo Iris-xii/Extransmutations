@@ -16,7 +16,7 @@ public static class GlyphRecombination {
   public static PartType LoadPuzzleContent(Textures t) {
     QApi.AddPuzzlePermission("extransmutations-recombination",
     "Glyph of Recombination",
-    "Extransmutations");
+    "Extransmutations: Ichor");
 
     PartType glyphRecombination = new() {
       field_1528 = "extransmutations-recombination", // ID

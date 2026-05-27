@@ -15,7 +15,7 @@ public static class GlyphRestoration {
   public static PartType LoadPuzzleContent(Textures t) {
     QApi.AddPuzzlePermission("extransmutations-restoration",
     "Glyph of Restoration",
-    "Extransmutations");
+    "Extransmutations: Ichor");
     PartType glyphRestoration = new() {
       field_1528 = "extransmutations-restoration", // ID
       field_1529 = class_134.method_253("Glyph of Restoration", string.Empty), // Name
