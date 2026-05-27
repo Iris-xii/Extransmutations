@@ -73,6 +73,7 @@ public class Textures {
   public Texture extraordinaryGlow = class_235.method_615("textures/parts/extraordinary/glow");
   public Texture extraordinaryStroke = class_235.method_615("textures/parts/extraordinary/stroke");
   public Texture extraordinaryGlyph = class_235.method_615("textures/parts/extraordinary_glyph");
+  public Texture waterGlyph = class_235.method_615("textures/parts/water_glyph");
   public Texture extraordinaryPanel = class_235.method_615("textures/parts/extraordinary/panel");  
   public Texture restorationBase = class_235.method_615("textures/parts/et_restoration/base");
   public Texture restorationGlow = class_235.method_615("textures/parts/et_restoration/glow");

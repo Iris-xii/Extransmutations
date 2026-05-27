@@ -43,9 +43,9 @@ public static class GlyphLiquidation {
       renderer.method_528(t.bowlProjTexture, new(0, 1), Vector2.Zero);
       renderer.method_528(t.bowlTexture, new(0, 0), Vector2.Zero);
       renderer.method_528(t.bowlTexture, new(-1, 2), Vector2.Zero);
-      renderer.method_529(t.saltBowlGlyphSpot, new(0, 0), Vector2.Zero);
+      renderer.method_529(t.waterGlyph, new(0, 0), Vector2.Zero);
       renderer.method_529(t.quicksilverGlyphSpot, new(0, 1), Vector2.Zero);
-      renderer.method_529(t.saltBowlGlyphSpot, new(-1, 2), Vector2.Zero);
+      renderer.method_529(t.waterGlyph, new(-1, 2), Vector2.Zero);
     });
     QApi.AddPartTypeToPanel(glyphLiquidation, false);
     return glyphLiquidation;
