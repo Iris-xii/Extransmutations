@@ -6,3 +6,6 @@ Dependencies:
   Version: 0.5.4
 - Name: Brimstone
   Version: 2.0.2
+OptionalDependencies:
+- Name: UncommonPrimes
+  Version: 0.1.0
