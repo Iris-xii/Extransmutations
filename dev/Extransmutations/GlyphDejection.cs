@@ -10,13 +10,15 @@ using AtomTypes = class_175;
 using Texture = class_256;
 using VanillaAtoms = Brimstone.API.VanillaAtoms;
 
+using EM = ExtransmutationsMod;
+
 public static class GlyphDejection {
 
   public static PartType LoadPuzzleContent(Textures t) {
 
     QApi.AddPuzzlePermission("extransmutations-dejection",
     "Glyph of Dejection",
-    "Extransmutations: Ichor"); 
+    "Extransmutations: Ichor");
 
     PartType glyphDejection = new() {
       field_1528 = "extransmutations-dejection", // ID
@@ -57,7 +59,7 @@ public static class GlyphDejection {
       int irisFrame = 15;
       bool afterIrisOpens = false;
       var targetAt = pss.field_2743 ? Molecule.method_1121(pss.field_2744[0]) : null;
-      if (pss.field_2743 ) {
+      if (pss.field_2743) {
         irisFrame = class_162.method_404((int)(class_162.method_411(1f, -1f, time) * 16f), 0, 15);
         afterIrisOpens = time > 0.5f;
         if (!afterIrisOpens && targetAt != null) {
@@ -70,7 +72,7 @@ public static class GlyphDejection {
       renderer.method_528(class_238.field_1989.field_90.field_228.field_271, new HexIndex(1, 0), Vector2.Zero);
       renderer.method_529(t.dejectionIris[irisFrame], new HexIndex(0, 1), Vector2.Zero);
       renderer.method_528(class_238.field_1989.field_90.field_228.field_271, new HexIndex(0, 1), Vector2.Zero);
-      
+
       if (pss.field_2743 && afterIrisOpens) {
         Editor.method_925(targetAt, offset1, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
         Editor.method_925(targetAt, offset2, new HexIndex(0, 0), 0f, 1f, time, 1f, false, null);
@@ -82,7 +84,7 @@ public static class GlyphDejection {
     return glyphDejection;
   }
   //(Fire -> x2 Earth -> x2 Water -> x2 Air -> x2 Fire)
-  public static void Activate(bool firstHalf, Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(bool firstHalf, Sim sim, SolutionEditorBase seb, Part part, Textures t, bool doExtraordinary) {
     var output1 = new HexIndex(1, 0);
     var output2 = new HexIndex(0, 1);
     PartSimState pss = sim.field_3821[part];
@@ -99,6 +101,13 @@ public static class GlyphDejection {
       if (anyCard.field_2280 == VanillaAtoms.earth) { target = VanillaAtoms.water; }
       if (anyCard.field_2280 == VanillaAtoms.water) { target = VanillaAtoms.air; }
       if (anyCard.field_2280 == VanillaAtoms.air) { target = VanillaAtoms.fire; }
+      if (doExtraordinary) {
+        if (anyCard.field_2280 == EM.uncommonPrimesAtoms.obscurum) { target = EM.uncommonPrimesAtoms.bellum; }
+        if (anyCard.field_2280 == EM.uncommonPrimesAtoms.bellum) { target = EM.uncommonPrimesAtoms.lux; }
+        if (anyCard.field_2280 == EM.uncommonPrimesAtoms.lux) { target = EM.uncommonPrimesAtoms.pax; }
+        if (anyCard.field_2280 == EM.uncommonPrimesAtoms.pax) { target = EM.uncommonPrimesAtoms.obscurum; }
+      }
+
       doTransmute = doTransmute && (target != VanillaAtoms.salt);
 
       if (doTransmute) {

@@ -233,7 +233,7 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
         if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
         if (partType == glyphRestoration) { GlyphRestoration.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
-        if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures); }
+        if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures,glyphExtraordinaryExists); }
         if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, textures); }
         if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
         if (partType == glyphLiquidation) { GlyphLiquidation.Activate(sim, seb, part, textures); }
