@@ -20,12 +20,49 @@ public class ExtransmutationsMod : QuintessentialMod {
 
   public Hook hook_sim_method_1825;
   private ILHook ilhook_orig_method_1832;
+  public Hook hook_GameLogic_method_946;
 
   public override void Load() {
     //hook_sim_method_1825 = new Hook(
     //  typeof(Sim).GetMethod("method_1825", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public),
     //  OnSimMethod1825); 
+    //hook_GameLogic_method_946 = new Hook(
+    //  typeof(GameLogic).GetMethod("method_946", BF.Public | BF.Instance),
+    //  OnGameLogicMethod945
+    //);
+    //puzzleinfoscreen_method_1275 = new Hook(
+    //  typeof(PuzzleInfoScreen).GetMethod("method_1275", BF.NonPublic | BF.Instance),
+    //  OnSolLoad
+    //);
   }
+
+
+  //public Hook puzzleinfoscreen_method_1275;
+  //internal static void OnSolLoad(
+  //    Action<PuzzleInfoScreen, Solution> orig,
+  //    PuzzleInfoScreen self,
+  //    Solution param_5012) {
+  //  
+  //  Puzzle puzzle = param_5012.method_1934();
+  //    puzzle.field_2769 = new(true, new class_215() {
+  //      field_1899 = puzzle.field_2766,
+  //      field_1900 = class_134.method_253("A", string.Empty),
+  //      field_1901 = class_134.method_253("BBB EEE RRR QQQ", string.Empty),
+  //      field_1902 = "speedbonder",
+  //      field_1903 = new(),
+  //      field_1904 = new(0, 0),
+  //    });
+  //  orig(self,param_5012);
+  //}
+  //internal delegate void origOnGameLogicMethod945(GameLogic self, IScreen param_4617);
+  //internal static void OnGameLogicMethod945(
+  //    origOnGameLogicMethod945 orig,
+  //    GameLogic self,
+  //    IScreen param_4617) {
+  //  if (param_4617 is PuzzleInfoScreen) {}
+  //  orig(self, param_4617);
+  //}
+  
   private static void ILMethod1832(ILContext il) {
     try {
       ILCursor c = new(il);
@@ -229,11 +266,11 @@ public class ExtransmutationsMod : QuintessentialMod {
       }
       foreach (Part part in partList) {
         var partType = part.method_1159();
-        if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
-        if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
-        if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
-        if (partType == glyphRestoration) { GlyphRestoration.Activate(sim, seb, part, textures,glyphExtraordinaryExists); }
-        if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures,glyphExtraordinaryExists); }
+        if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures, glyphExtraordinaryExists); }
+        if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures, glyphExtraordinaryExists); }
+        if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures, glyphExtraordinaryExists); }
+        if (partType == glyphRestoration) { GlyphRestoration.Activate(sim, seb, part, textures, glyphExtraordinaryExists); }
+        if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures, glyphExtraordinaryExists); }
         if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, textures); }
         if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
         if (partType == glyphLiquidation) { GlyphLiquidation.Activate(sim, seb, part, textures); }
@@ -249,6 +286,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     hook_sim_method_1825 = null;
     ilhook_orig_method_1832 = null;
   }
+  internal static void Log(string s) => Logger.Log($"[extransmutations] {s}");
 
 #nullable enable
   public struct UncommonPrimesAtoms {
