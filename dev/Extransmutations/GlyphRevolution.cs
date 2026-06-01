@@ -112,6 +112,9 @@ public static class GlyphRevolution {
 
         //Vector2 param_5378b = class_187.field_1742.method_492(part.method_1161() + new HexIndex(2, 0).Rotated(part.method_1163()));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new(0, 0))), t.cycleGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        t.activationSound.field_4062 = false;
+        t.activationSound.method_28(seb.method_506()); 
       }
     }
   }

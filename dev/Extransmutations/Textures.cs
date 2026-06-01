@@ -18,7 +18,7 @@ public class Textures {
   public Texture transmutationInversionSpotTexture = class_235.method_615("textures/parts/cardinal_inversion_symbols");
   public Texture transmutationCycleSpotTexture = class_235.method_615("textures/parts/cardinal_cycle_symbols");
   public Texture calcifySpotTexture = class_235.method_615("textures/parts/calcinator_symbols");
-  public Texture saltBowlGlyphSpot = class_235.method_615("textures/parts/salt_glyph");
+  public Texture saltBowlGlyphSpot = class_235.method_615("textures/parts/salt_glyph_engraved");
   //public Texture cardinalCompletionGlyphAny = class_235.method_615("textures/parts/any_cardinal_completion");
   public Texture diamondGlow = class_235.method_615("textures/select/diamond_glow");
   public Texture oneByThreeGlow = class_235.method_615("textures/select/1by3_glow");
@@ -31,7 +31,7 @@ public class Textures {
   public Texture cardinalInversionBase = class_235.method_615("textures/parts/cardinal_inversion/base");
   public Texture cardinalInversionGlow = class_235.method_615("textures/parts/cardinal_inversion/glow");
   public Texture cardinalInversionStroke = class_235.method_615("textures/parts/cardinal_inversion/stroke");
-  public Texture cardinalCompletionBase = class_235.method_615("textures/parts/completion_base");
+  public Texture cardinalCompletionBase = class_235.method_615("textures/parts/completion_new_base");
   public Texture cardinalCompletionGlow = class_235.method_615("textures/parts/completion/glow");
   public Texture cardinalCompletionStroke = class_235.method_615("textures/parts/completion/stroke");
   public Texture dejectionBase = class_235.method_615("textures/parts/dejection/base");
@@ -80,4 +80,10 @@ public class Textures {
   public Texture restorationStroke = class_235.method_615("textures/parts/et_restoration/stroke");
   public Texture restorationPanel = class_235.method_615("textures/parts/et_restoration/panel");
   public Sound disposalSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_disposal").method_1087();
+  public Texture[] anyGlowArray = Brimstone.API.GetAnimation("textures/parts/any_cardinal.array","a",9);
+  public Texture[] saltGlyphArray = Brimstone.API.GetAnimation("textures/parts/salt_glyph.array","a",9);
+  public Texture[] inversionGlowArray = Brimstone.API.GetAnimation("textures/parts/cardinal_inversion.array","a",9);
+  public Texture[] cycleGlowArray = Brimstone.API.GetAnimation("textures/parts/cardinal_cycle.array","a",9);
+  public Sound activationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_duplication").method_1087();
+  public Sound fancyActivationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_unification").method_1087();
 }

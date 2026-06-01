@@ -50,9 +50,9 @@ public static class GlyphCompletion {
     QApi.AddPartType(cardinalCompletion, (part, pos, editor, renderer) => {
       Vector2 centre = new(/*82.5f*/41.25f, 119.5f);// new Vector2(42f, 49f) + new Vector2(0f,-1f);
       renderer.method_523(t.cardinalCompletionBase, new Vector2(-1, -1), centre, 0);
-      renderer.method_528(t.bowlProjTexture, new HexIndex(1, 0), Vector2.Zero);
-      renderer.method_528(t.bowlProjTexture, new HexIndex(0, 0), Vector2.Zero);
-      renderer.method_528(t.bowlProjTexture, new HexIndex(1, -1), Vector2.Zero);
+      renderer.method_528(t.bowlTexture, new HexIndex(1, 0), Vector2.Zero);
+      renderer.method_528(t.bowlTexture, new HexIndex(0, 0), Vector2.Zero);
+      renderer.method_528(t.bowlTexture, new HexIndex(1, -1), Vector2.Zero);
       renderer.method_528(t.bowlProjTexture, new HexIndex(0, 1), Vector2.Zero);
 
       renderer.method_529(t.anyCardinal, new HexIndex(1, 0), Vector2.Zero);
@@ -201,6 +201,12 @@ public static class GlyphCompletion {
         //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
         //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
         class_238.field_1991.field_1844.method_28(seb.method_506());
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.saltGlyphArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        t.fancyActivationSound.field_4062 = false;
+        t.fancyActivationSound.method_28(seb.method_506()); 
       }
     }
     if (doExtraordinary) { // ORDINALS
@@ -244,10 +250,12 @@ public static class GlyphCompletion {
           ar.field_2277.method_1106(maybeTarget, ar.field_2278);
           ar.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, ar.field_2280, class_238.field_1989.field_81.field_614, 60f);
         }
-        //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        class_238.field_1991.field_1844.method_28(seb.method_506());
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.saltGlyphArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        t.fancyActivationSound.field_4062 = false;
+        t.fancyActivationSound.method_28(seb.method_506()); 
       }
     }
 

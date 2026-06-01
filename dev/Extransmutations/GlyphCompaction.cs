@@ -70,6 +70,8 @@ public static class GlyphCompaction {
       if (doTransmute) {
         Brimstone.API.ChangeAtom(salt,VanillaAtoms.earth);
         salt.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, salt.field_2280, class_238.field_1989.field_81.field_614, 60f); //30f
+        t.activationSound.field_4062 = false;
+        t.activationSound.method_28(seb.method_506()); 
       }
     }
   }
