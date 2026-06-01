@@ -8,6 +8,7 @@ using PartTypes = class_191;
 using Permissions = enum_149;
 using AtomTypes = class_175;
 using Texture = class_256;
+using VA = Brimstone.API.VanillaAtoms;
 
 using static ExtransmutationsMod;
 
@@ -74,63 +75,9 @@ public static class GlyphCompletion {
     return false;
   }
 
-  // Ty greenfield 
-  internal static Maybe<AtomReference> FindBerloAtom(Sim sim_self, Part part, HexIndex offset, string wheelName = "baron", Molecule wheelMol = null) => FindBerloAtom(sim_self, part.method_1184(offset), wheelName, wheelMol);
-  internal static Maybe<AtomReference> FindBerloAtom(Sim sim_self, HexIndex hex,
-      string wheelName = "baron", Molecule wheelMol = null) {
-    var SEB = sim_self.field_3818;
-    var solution = SEB.method_502();
-    var partList = solution.field_3919;
-    var partSimStates = sim_self.field_3821;
 
-    foreach (var berlo in partList.Where(x => x.method_1159().field_1528 == wheelName)) {
-      var partSimState = partSimStates[berlo];
-      Molecule wheelAtoms;//berlo.field_1544
-      if (wheelMol is null) {
-        wheelAtoms = new();
-        foreach (var kv in berlo.method_1159().field_1544) {
-          wheelAtoms.method_1105(new(kv.Value), kv.Key);
-        }
-      }
-      else {
-        wheelAtoms = wheelMol;
-      }
-      var hexIndex = partSimState.field_2724;
-      var rotation = partSimState.field_2726;
-      var hexKey = (hex - hexIndex).Rotated(rotation.Negative());
-      //SEB.field_3935.Add(new class_228(SEB, (enum_7)1, 
-      //class_187.field_1742.method_492(berlo.method_1184(hexKey)), Brimstone.API.GetAnimation("textures/parts/calcification_glyph_flash.array", "calcify_glyph", 10), 2f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-      if (wheelAtoms.method_1100().TryGetValue(hexKey, out Atom atom)) {
-        return new AtomReference(wheelAtoms, hexKey, atom.field_2275, atom, true);
-      }
-    }
-    return struct_18.field_1431;
-  }
-  // berlo end
 
-  internal static void BerloReplaceCardinals(
-      byte version,
-      Sim sim,
-      Part part,
-      in AtomType[] cardinalsTypes,
-      byte[] cardinalsCount,
-      string wheelName = "baron",
-      Molecule wheelMol = null) {
-    if (version <= 0) { return; }
-    foreach (var offset in CARDINAL_POSITIONS) {
-      var maybeAR = FindBerloAtom(sim, part, offset, wheelName, wheelMol);
-      if (maybeAR.method_99(out var AR)) {
-        var kind = AR.field_2280;
-        for (int i = 0; i < cardinalsCount.Length; i++) {
-          if (kind == cardinalsTypes[i]) {
-            cardinalsCount[i] += 1;
-          }
-        }
-      }
-    }
-  }
-
-  private static Molecule ServinMolec() {
+  internal static Molecule ServinMolec() {
     Molecule servinMolec = new();
     servinMolec.method_1105(new Atom(ExtransmutationsMod.uncommonPrimesAtoms.obscurum), new HexIndex(0, 1));
     servinMolec.method_1105(new Atom(Brimstone.API.VanillaAtoms.salt), new HexIndex(1, 0));
@@ -143,121 +90,163 @@ public static class GlyphCompletion {
 
   internal static HexIndex[] CARDINAL_POSITIONS = new HexIndex[] { new(1, 0), new(0, 0), new(1, -1) };
   internal static HexIndex SALT_POSITION = new(0, 1);
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t, bool doExtraordinary) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
     var solution = seb.method_502();
     var puzzle = solution.method_1934();
     var version = GetVersion(puzzle.CustomPermissions);
+    var partList = solution.field_3919;
 
     sim.FindAtomRelative(part, new HexIndex(1, 0)).method_99(out AtomReference c1);
     sim.FindAtomRelative(part, new HexIndex(0, 0)).method_99(out AtomReference c2);
     sim.FindAtomRelative(part, new HexIndex(1, -1)).method_99(out AtomReference c3);
-    bool trueSalt = sim.FindAtomRelative(part, new HexIndex(0, 1)).method_99(out AtomReference salt);
-    trueSalt = trueSalt && salt.field_2280 == Brimstone.API.VanillaAtoms.salt;
-    bool hasSalt = trueSalt
-      || (version > 0 && FindBerloAtom(sim, part, SALT_POSITION).method_1085() && FindBerloAtom(sim, part, SALT_POSITION).method_1087().field_2280 == Brimstone.API.VanillaAtoms.salt)
-      || (version > 0 && doExtraordinary && FindBerloAtom(sim, part, SALT_POSITION,"uncommon-primes-servin", ServinMolec()).method_1085() && FindBerloAtom(sim, part, SALT_POSITION,"uncommon-primes-servin", ServinMolec()).method_1087().field_2280 == Brimstone.API.VanillaAtoms.salt);
-    { // NORMAL
-      AtomReference[] cardinalRefs = { c1, c2, c3 };
-      AtomReference[] allAtomRefs = { c1, c2, c3, salt };
-      AtomType[] cardinals_types = {
-          Brimstone.API.VanillaAtoms.water,
-          Brimstone.API.VanillaAtoms.fire,
-          Brimstone.API.VanillaAtoms.air,
-          Brimstone.API.VanillaAtoms.earth,
-      };
-      byte[] cardinalsCount = { 0, 0, 0, 0 };
-      for (int i = 0; i < 4; i++) {
-        foreach (AtomReference ar in cardinalRefs) {
-          if (ar is null) continue;
-          if (ar.field_2280 == cardinals_types[i]) {
-            cardinalsCount[i] += 1;
-          }
+    sim.FindAtomRelative(part, new HexIndex(0, 1)).method_99(out AtomReference salt);
+    //whether they should be treated as 'catalyst' (not transmuted). this is for berlo
+    bool c1Cat = false, c2Cat = false, c3Cat = false, saltCat = false;
+
+    if (version > 0) { // do berlo
+      foreach (var e in API.completionWheels) {
+        if (FindBerloAtom(sim, part, new HexIndex(1, 0), e.wheelName, e.wheelMolecule).method_99(out var ba)) {
+          c1 = ba;
+          c1Cat = true;
         }
-      }
-      BerloReplaceCardinals(version, sim, part, cardinals_types, cardinalsCount);
-      AtomType maybeTarget = Brimstone.API.VanillaAtoms.salt; //this crashes if null, for some reason, so dummy salt it is
-      if (cardinalsCount.SequenceEqual(new byte[] { 1, 1, 1, 0 })) {
-        maybeTarget = Brimstone.API.VanillaAtoms.earth;
-      }
-      if (cardinalsCount.SequenceEqual(new byte[] { 0, 1, 1, 1 })) {
-        maybeTarget = Brimstone.API.VanillaAtoms.water;
-      }
-      if (cardinalsCount.SequenceEqual(new byte[] { 1, 0, 1, 1 })) {
-        maybeTarget = Brimstone.API.VanillaAtoms.fire;
-      }
-      if (cardinalsCount.SequenceEqual(new byte[] { 1, 1, 0, 1 })) {
-        maybeTarget = Brimstone.API.VanillaAtoms.air;
-      }
-      if (hasSalt && (maybeTarget != Brimstone.API.VanillaAtoms.salt)) { //transmute!
-        if (!trueSalt) {
-          allAtomRefs = new AtomReference[] { c1, c2, c3 };
+        if (FindBerloAtom(sim, part, new HexIndex(0, 0), e.wheelName, e.wheelMolecule).method_99(out var ba2)) {
+          c2 = ba2;
+          c2Cat = true;
         }
-        foreach (AtomReference ar in allAtomRefs) {
-          if (ar is null) continue;
-          ar.field_2277.method_1106(maybeTarget, ar.field_2278);
-          ar.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, ar.field_2280, class_238.field_1989.field_81.field_614, 60f);
+        if (FindBerloAtom(sim, part, new HexIndex(1, -1), e.wheelName, e.wheelMolecule).method_99(out var ba3)) {
+          c3 = ba3;
+          c3Cat = true;
         }
-        //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        //seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.calcifyAnimation, 30f, Vector2.Zero, 0f));
-        class_238.field_1991.field_1844.method_28(seb.method_506());
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.saltGlyphArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        t.fancyActivationSound.field_4062 = false;
-        t.fancyActivationSound.method_28(seb.method_506()); 
-      }
-    }
-    if (doExtraordinary) { // ORDINALS
-      AtomReference[] ordinalRefs = { c1, c2, c3 };
-      AtomReference[] allAtomRefs = { c1, c2, c3, salt };
-      AtomType[] ordinals_types = {
-          ExtransmutationsMod.uncommonPrimesAtoms.bellum,
-          ExtransmutationsMod.uncommonPrimesAtoms.pax,
-          ExtransmutationsMod.uncommonPrimesAtoms.lux,
-          ExtransmutationsMod.uncommonPrimesAtoms.obscurum,
-      };
-      byte[] ordinalsCount = { 0, 0, 0, 0 };
-      for (int i = 0; i < 4; i++) {
-        foreach (AtomReference ar in ordinalRefs) {
-          if (ar is null) continue;
-          if (ar.field_2280 == ordinals_types[i]) {
-            ordinalsCount[i] += 1;
-          }
+        if (FindBerloAtom(sim, part, new HexIndex(0, 1), e.wheelName, e.wheelMolecule).method_99(out var ba4)) {
+          salt = ba4;
+          saltCat = true;
         }
-      }
-      BerloReplaceCardinals(version, sim, part, ordinals_types, ordinalsCount, "uncommon-primes-servin", ServinMolec());
-      AtomType maybeTarget = Brimstone.API.VanillaAtoms.salt; //this crashes if null, for some reason, so dummy salt it is
-      if (ordinalsCount.SequenceEqual(new byte[] { 1, 1, 1, 0 })) {
-        maybeTarget = ExtransmutationsMod.uncommonPrimesAtoms.obscurum;
-      }
-      if (ordinalsCount.SequenceEqual(new byte[] { 0, 1, 1, 1 })) {
-        maybeTarget = ExtransmutationsMod.uncommonPrimesAtoms.bellum;
-      }
-      if (ordinalsCount.SequenceEqual(new byte[] { 1, 0, 1, 1 })) {
-        maybeTarget = ExtransmutationsMod.uncommonPrimesAtoms.pax;
-      }
-      if (ordinalsCount.SequenceEqual(new byte[] { 1, 1, 0, 1 })) {
-        maybeTarget = ExtransmutationsMod.uncommonPrimesAtoms.lux;
-      }
-      if (hasSalt && (maybeTarget != Brimstone.API.VanillaAtoms.salt)) { //transmute!
-        if (!trueSalt) {
-          allAtomRefs = new AtomReference[] { c1, c2, c3 };
-        }
-        foreach (AtomReference ar in allAtomRefs) {
-          if (ar is null) continue;
-          ar.field_2277.method_1106(maybeTarget, ar.field_2278);
-          ar.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, ar.field_2280, class_238.field_1989.field_81.field_614, 60f);
-        }
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.saltGlyphArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        t.fancyActivationSound.field_4062 = false;
-        t.fancyActivationSound.method_28(seb.method_506()); 
       }
     }
 
+    foreach (var recipe in API.completionRecipes) {
+      var cardinals = new AtomReference[] { c1, c2, c3 }
+        .Where(c => c is not null)
+        .Select(c => c.field_2280).ToList();
+      if (!API.ConditionsOk(recipe.conditions, puzzle, partList)) { continue; }
+      if (!(recipe.saltElement is null || (salt is not null && salt.field_2280 == recipe.saltElement))) { continue; }
+      if (recipe.c1 is not null) {
+        if (cardinals.Contains(recipe.c1)) {
+          cardinals.Remove(recipe.c1);
+        }
+        else { continue; }
+      }
+      if (recipe.c2 is not null) {
+        if (cardinals.Contains(recipe.c2)) {
+          cardinals.Remove(recipe.c2);
+        }
+        else { continue; }
+      }
+      if (recipe.c3 is not null) {
+        if (cardinals.Contains(recipe.c3)) {
+          cardinals.Remove(recipe.c3);
+        }
+        else { continue; }
+      }
+      if (cardinals.Count != 0) { continue; }
+      //TRANSMUTE!
+
+      if(c1 is not null && !c1Cat) {Brimstone.API.ChangeAtom(c1,recipe.output);c1.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c1.field_2280, class_238.field_1989.field_81.field_614, 60f);}
+      if(c2 is not null && !c2Cat) {Brimstone.API.ChangeAtom(c2,recipe.output);c2.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c2.field_2280, class_238.field_1989.field_81.field_614, 60f);}
+      if(c3 is not null && !c3Cat) {Brimstone.API.ChangeAtom(c3,recipe.output);c3.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c3.field_2280, class_238.field_1989.field_81.field_614, 60f);}
+      if(salt is not null && !saltCat) {Brimstone.API.ChangeAtom(salt,recipe.saltOutput);salt.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, salt.field_2280, class_238.field_1989.field_81.field_614, 60f);}
+
+      class_238.field_1991.field_1844.method_28(seb.method_506());
+      seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+      seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+      seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+      seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.saltGlyphArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+      t.fancyActivationSound.field_4062 = false;
+      t.fancyActivationSound.method_28(seb.method_506());
+      break;
+    }
+  }
+
+  internal static API.RecipeConditions ExtraordinaryConditions() => new() {
+    requiredPerm = null,
+    requiredGlyphName = "extransmutations-extraordinary",
+  };
+
+  internal static void DefaultRecipes() {
+    API.AddCompletionRecipe(new API.CompletionRecipe() {
+      conditions = API.NoConditions(),
+      saltElement = VA.salt,
+      c1 = VA.water,
+      c2 = VA.fire,
+      c3 = VA.earth,
+      output = VA.air,
+      saltOutput = VA.air,
+    });
+    API.AddCompletionRecipe(new API.CompletionRecipe() {
+      conditions = API.NoConditions(),
+      saltElement = VA.salt,
+      c1 = VA.air,
+      c2 = VA.fire,
+      c3 = VA.earth,
+      output = VA.water,
+      saltOutput = VA.water,
+    });
+    API.AddCompletionRecipe(new API.CompletionRecipe() {
+      conditions = API.NoConditions(),
+      saltElement = VA.salt,
+      c1 = VA.air,
+      c2 = VA.water,
+      c3 = VA.earth,
+      output = VA.fire,
+      saltOutput = VA.fire,
+    });
+    API.AddCompletionRecipe(new API.CompletionRecipe() {
+      conditions = API.NoConditions(),
+      saltElement = VA.salt,
+      c1 = VA.air,
+      c2 = VA.water,
+      c3 = VA.fire,
+      output = VA.earth,
+      saltOutput = VA.earth,
+    });
+    // EXTRAORDINARY
+    if (uncommonPrimesAtoms.bellum is not null) {
+      API.AddCompletionRecipe(new API.CompletionRecipe() {
+        conditions = ExtraordinaryConditions(),
+        saltElement = VA.salt,
+        c1 = uncommonPrimesAtoms.pax,
+        c2 = uncommonPrimesAtoms.lux,
+        c3 = uncommonPrimesAtoms.obscurum,
+        output = uncommonPrimesAtoms.bellum,
+        saltOutput = uncommonPrimesAtoms.bellum,
+      });
+      API.AddCompletionRecipe(new API.CompletionRecipe() {
+        conditions = ExtraordinaryConditions(),
+        saltElement = VA.salt,
+        c1 = uncommonPrimesAtoms.pax,
+        c2 = uncommonPrimesAtoms.lux,
+        c3 = uncommonPrimesAtoms.bellum,
+        output = uncommonPrimesAtoms.obscurum,
+        saltOutput = uncommonPrimesAtoms.obscurum,
+      });
+      API.AddCompletionRecipe(new API.CompletionRecipe() {
+        conditions = ExtraordinaryConditions(),
+        saltElement = VA.salt,
+        c1 = uncommonPrimesAtoms.pax,
+        c2 = uncommonPrimesAtoms.obscurum,
+        c3 = uncommonPrimesAtoms.bellum,
+        output = uncommonPrimesAtoms.lux,
+        saltOutput = uncommonPrimesAtoms.lux,
+      });
+      API.AddCompletionRecipe(new API.CompletionRecipe() {
+        conditions = ExtraordinaryConditions(),
+        saltElement = VA.salt,
+        c1 = uncommonPrimesAtoms.lux,
+        c2 = uncommonPrimesAtoms.obscurum,
+        c3 = uncommonPrimesAtoms.bellum,
+        output = uncommonPrimesAtoms.pax,
+        saltOutput = uncommonPrimesAtoms.pax,
+      });
+    }
   }
 }

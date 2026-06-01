@@ -62,7 +62,7 @@ public class ExtransmutationsMod : QuintessentialMod {
   //  if (param_4617 is PuzzleInfoScreen) {}
   //  orig(self, param_4617);
   //}
-  
+
   private static void ILMethod1832(ILContext il) {
     try {
       ILCursor c = new(il);
@@ -178,6 +178,17 @@ public class ExtransmutationsMod : QuintessentialMod {
       }
       catch (InvalidOperationException) { }
     }
+
+    
+    API.AddCompletionWheel(new() {
+      wheelName = "uncommon-primes-servin",
+      wheelMolecule = GlyphCompletion.ServinMolec()
+    });
+    API.AddCompletionWheel(new() {
+      wheelName = "baron",
+      wheelMolecule = null
+    });
+    GlyphCompletion.DefaultRecipes();
   }
   public override void LoadPuzzleContent() {
     Ichor = Brimstone.API.CreateNormalAtom(81, "Extransmutations", "Ichor",
@@ -260,7 +271,7 @@ public class ExtransmutationsMod : QuintessentialMod {
           value += 1;
           inductionHooksCount[hookSpot] = value;
         }
-        glyphExtraordinaryExists = 
+        glyphExtraordinaryExists =
           ExtransmutationsMod.uncommonPrimesAtoms.bellum is not null
           && (glyphExtraordinaryExists || partType == glyphExtraordinary);
       }
@@ -268,7 +279,7 @@ public class ExtransmutationsMod : QuintessentialMod {
         var partType = part.method_1159();
         if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures, glyphExtraordinaryExists); }
         if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures, glyphExtraordinaryExists); }
-        if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures, glyphExtraordinaryExists); }
+        if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures); }
         if (partType == glyphRestoration) { GlyphRestoration.Activate(sim, seb, part, textures, glyphExtraordinaryExists); }
         if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures, glyphExtraordinaryExists); }
         if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, textures); }
@@ -287,6 +298,41 @@ public class ExtransmutationsMod : QuintessentialMod {
     ilhook_orig_method_1832 = null;
   }
   internal static void Log(string s) => Logger.Log($"[extransmutations] {s}");
+
+
+  // BERLO - Ty greenfield 
+  internal static Maybe<AtomReference> FindBerloAtom(Sim sim_self, Part part, HexIndex offset, string wheelName = "baron", Molecule wheelMol = null) => FindBerloAtom(sim_self, part.method_1184(offset), wheelName, wheelMol);
+  internal static Maybe<AtomReference> FindBerloAtom(Sim sim_self, HexIndex hex,
+      string wheelName = "baron", Molecule wheelMol = null) {
+    var SEB = sim_self.field_3818;
+    var solution = SEB.method_502();
+    var partList = solution.field_3919;
+    var partSimStates = sim_self.field_3821;
+
+    foreach (var berlo in partList.Where(x => x.method_1159().field_1528 == wheelName)) {
+      var partSimState = partSimStates[berlo];
+      Molecule wheelAtoms;//berlo.field_1544
+      if (wheelMol is null) {
+        wheelAtoms = new();
+        foreach (var kv in berlo.method_1159().field_1544) {
+          wheelAtoms.method_1105(new(kv.Value), kv.Key);
+        }
+      }
+      else {
+        wheelAtoms = wheelMol;
+      }
+      var hexIndex = partSimState.field_2724;
+      var rotation = partSimState.field_2726;
+      var hexKey = (hex - hexIndex).Rotated(rotation.Negative());
+      //SEB.field_3935.Add(new class_228(SEB, (enum_7)1, 
+      //class_187.field_1742.method_492(berlo.method_1184(hexKey)), Brimstone.API.GetAnimation("textures/parts/calcification_glyph_flash.array", "calcify_glyph", 10), 2f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+      if (wheelAtoms.method_1100().TryGetValue(hexKey, out Atom atom)) {
+        return new AtomReference(wheelAtoms, hexKey, atom.field_2275, atom, true);
+      }
+    }
+    return struct_18.field_1431;
+  }
+  // berlo end
 
 #nullable enable
   public struct UncommonPrimesAtoms {
