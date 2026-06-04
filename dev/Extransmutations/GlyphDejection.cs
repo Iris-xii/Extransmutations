@@ -115,6 +115,8 @@ public static class GlyphDejection {
         pss.field_2744 = new AtomType[] { target };
         Brimstone.API.ChangeAtom(anyCard, ExtransmutationsMod.Ichor);
         anyCard.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, anyCard.field_2280, class_238.field_1989.field_81.field_614, 60f);
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, 0f));
         t.activationSound.field_4062 = false;
         t.activationSound.method_28(seb.method_506()); 
       }

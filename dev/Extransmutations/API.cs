@@ -20,6 +20,10 @@ public static class API {
     /// PartType.field_1528, the name of the wheel.
     /// </summary>
     public string wheelName;
+    /// <summary>
+    /// The molecule used in the wheel. If this is null it does its best
+    /// by reading .field_1544
+    /// </summary>
     public Molecule? wheelMolecule;
   }
 

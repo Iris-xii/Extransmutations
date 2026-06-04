@@ -296,7 +296,7 @@ public class ExtransmutationsMod : QuintessentialMod {
   public override void Unload() {
     hook_sim_method_1825 = null;
     ilhook_orig_method_1832 = null;
-  }
+  } 
   internal static void Log(string s) => Logger.Log($"[extransmutations] {s}");
 
 

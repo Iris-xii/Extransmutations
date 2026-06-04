@@ -98,6 +98,7 @@ public static class GlyphInversion {
         atomCalcify.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, atomCalcify.field_2280, class_238.field_1989.field_81.field_614, 60f);
 
         
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184( new(0, 0))), t.inversionGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         class_238.field_1991.field_1844.method_28(seb.method_506());

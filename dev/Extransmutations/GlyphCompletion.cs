@@ -54,7 +54,7 @@ public static class GlyphCompletion {
       renderer.method_528(t.bowlTexture, new HexIndex(1, 0), Vector2.Zero);
       renderer.method_528(t.bowlTexture, new HexIndex(0, 0), Vector2.Zero);
       renderer.method_528(t.bowlTexture, new HexIndex(1, -1), Vector2.Zero);
-      renderer.method_528(t.bowlProjTexture, new HexIndex(0, 1), Vector2.Zero);
+      renderer.method_528(t.bowlTexture, new HexIndex(0, 1), Vector2.Zero);
 
       renderer.method_529(t.anyCardinal, new HexIndex(1, 0), Vector2.Zero);
       renderer.method_529(t.anyCardinal, new HexIndex(0, 0), Vector2.Zero);
@@ -151,10 +151,27 @@ public static class GlyphCompletion {
       if (cardinals.Count != 0) { continue; }
       //TRANSMUTE!
 
-      if(c1 is not null && !c1Cat) {Brimstone.API.ChangeAtom(c1,recipe.output);c1.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c1.field_2280, class_238.field_1989.field_81.field_614, 60f);}
-      if(c2 is not null && !c2Cat) {Brimstone.API.ChangeAtom(c2,recipe.output);c2.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c2.field_2280, class_238.field_1989.field_81.field_614, 60f);}
-      if(c3 is not null && !c3Cat) {Brimstone.API.ChangeAtom(c3,recipe.output);c3.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c3.field_2280, class_238.field_1989.field_81.field_614, 60f);}
-      if(salt is not null && !saltCat) {Brimstone.API.ChangeAtom(salt,recipe.saltOutput);salt.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, salt.field_2280, class_238.field_1989.field_81.field_614, 60f);}
+      if (c1 is not null && !c1Cat) {
+        Brimstone.API.ChangeAtom(c1, recipe.output);
+        c1.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c1.field_2280, class_238.field_1989.field_81.field_614, 60f);
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+      }
+      if (c2 is not null && !c2Cat) {
+        Brimstone.API.ChangeAtom(c2, recipe.output);
+        c2.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c2.field_2280, class_238.field_1989.field_81.field_614, 60f);
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+      }
+      if (c3 is not null && !c3Cat) {
+        Brimstone.API.ChangeAtom(c3, recipe.output);
+        c3.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, c3.field_2280, class_238.field_1989.field_81.field_614, 60f);
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+      }
+      if (salt is not null && !saltCat) {
+        Brimstone.API.ChangeAtom(salt, recipe.saltOutput);
+        salt.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, salt.field_2280, class_238.field_1989.field_81.field_614, 60f);
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+      }
+
 
       class_238.field_1991.field_1844.method_28(seb.method_506());
       seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));

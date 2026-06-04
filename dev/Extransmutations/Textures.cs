@@ -84,6 +84,8 @@ public class Textures {
   public Texture[] saltGlyphArray = Brimstone.API.GetAnimation("textures/parts/salt_glyph.array","a",9);
   public Texture[] inversionGlowArray = Brimstone.API.GetAnimation("textures/parts/cardinal_inversion.array","a",9);
   public Texture[] cycleGlowArray = Brimstone.API.GetAnimation("textures/parts/cardinal_cycle.array","a",9);
+  public Texture[] ichorGlowArray = Brimstone.API.GetAnimation("textures/parts/ichor_glow.array","a",9);
   public Sound activationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_duplication").method_1087();
   public Sound fancyActivationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_unification").method_1087();
+  public Texture[] bowlGlow = Brimstone.API.GetAnimation("textures/parts/bowl_glow.array","a",9);
 }

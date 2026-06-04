@@ -41,7 +41,7 @@ public static class GlyphRestoration {
       PartSimState pss = editor.method_507().method_481(part);
       renderer.method_523(t.restorationBase, new Vector2(-1, -1), centre, 0f);
       renderer.method_528(t.bowlTexture, new(0, 0), Vector2.Zero);
-      renderer.method_528(t.bowlProjTexture, new(1, 0), Vector2.Zero);
+      renderer.method_528(t.bowlTexture, new(1, 0), Vector2.Zero);
       renderer.method_529(t.ichorIcon, new(0, 0), Vector2.Zero);
       renderer.method_529(t.anyCardinal, new(1, 0), Vector2.Zero);
     });
@@ -88,6 +88,10 @@ public static class GlyphRestoration {
           Brimstone.API.RemoveHexFromMolecule(moleculeCardinal, hex);
           seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(hex), t.destroyAnim, 30f, offsetFlash, /*part.method_1163().ToRadians()*/ 0f));
         }
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.ichorGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         t.disposalSound.field_4062 = false;
         t.disposalSound.method_28(seb.method_506()); 
         Brimstone.API.ForceRecomputeBonds(moleculeCardinal);

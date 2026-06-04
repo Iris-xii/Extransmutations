@@ -71,6 +71,8 @@ public static class GlyphRecombination {
         Brimstone.API.RemoveAtom(salt1);
         Brimstone.API.RemoveAtom(salt2);
         var offsetFlash = new Vector2(-72,0);
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.ichorGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.destroyAnim, 30f, offsetFlash, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.destroyAnim, 30f, offsetFlash, /*part.method_1163().ToRadians()*/ 0f));
       }
