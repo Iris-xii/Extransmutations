@@ -9,6 +9,7 @@ using Permissions = enum_149;
 using AtomTypes = class_175;
 using Texture = class_256;
 using VanillaAtoms = Brimstone.API.VanillaAtoms;
+using VA = Brimstone.API.VanillaAtoms;
 
 using EM = ExtransmutationsMod;
 
@@ -84,7 +85,7 @@ public static class GlyphDejection {
     return glyphDejection;
   }
   //(Fire -> x2 Earth -> x2 Water -> x2 Air -> x2 Fire)
-  public static void Activate(bool firstHalf, Sim sim, SolutionEditorBase seb, Part part, Textures t, bool doExtraordinary) {
+  public static void Activate(bool firstHalf, Sim sim, SolutionEditorBase seb, Part part, Textures t) {
     var output1 = new HexIndex(1, 0);
     var output2 = new HexIndex(0, 1);
     PartSimState pss = sim.field_3821[part];
@@ -96,30 +97,45 @@ public static class GlyphDejection {
       var occupied1 = sim.FindAtomRelative(part, new HexIndex(1, 0)).method_99(out AtomReference _);
       var occupied2 = sim.FindAtomRelative(part, new HexIndex(0, 1)).method_99(out AtomReference _);
       bool doTransmute = !occupied1 && !occupied2;
-      AtomType target = VanillaAtoms.salt;
-      if (anyCard.field_2280 == VanillaAtoms.fire) { target = VanillaAtoms.earth; }
-      if (anyCard.field_2280 == VanillaAtoms.earth) { target = VanillaAtoms.water; }
-      if (anyCard.field_2280 == VanillaAtoms.water) { target = VanillaAtoms.air; }
-      if (anyCard.field_2280 == VanillaAtoms.air) { target = VanillaAtoms.fire; }
-      if (doExtraordinary) {
-        if (anyCard.field_2280 == EM.uncommonPrimesAtoms.obscurum) { target = EM.uncommonPrimesAtoms.bellum; }
-        if (anyCard.field_2280 == EM.uncommonPrimesAtoms.bellum) { target = EM.uncommonPrimesAtoms.lux; }
-        if (anyCard.field_2280 == EM.uncommonPrimesAtoms.lux) { target = EM.uncommonPrimesAtoms.pax; }
-        if (anyCard.field_2280 == EM.uncommonPrimesAtoms.pax) { target = EM.uncommonPrimesAtoms.obscurum; }
-      }
 
-      doTransmute = doTransmute && (target != VanillaAtoms.salt);
+      var solution = seb.method_502();
+      var puzzle = solution.method_1934();
+      var partList = solution.field_3919;
 
       if (doTransmute) {
-        pss.field_2743 = true;
-        pss.field_2744 = new AtomType[] { target };
-        Brimstone.API.ChangeAtom(anyCard, ExtransmutationsMod.Ichor);
-        anyCard.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, anyCard.field_2280, class_238.field_1989.field_81.field_614, 60f);
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, 0f));
-        t.activationSound.field_4062 = false;
-        t.activationSound.method_28(seb.method_506()); 
+        foreach (var recipe in API.dejectionRecipes) {
+          if (!API.ConditionsOk(recipe.conditions, puzzle, partList)) { continue; }
+          if (anyCard.field_2280 != recipe.cardinal) { continue; }
+          AtomType target = recipe.transmutesTo;
+          AtomType ichor = recipe.ichorOutput;
+
+          pss.field_2743 = true;
+          pss.field_2744 = new AtomType[] { target };
+          Brimstone.API.ChangeAtom(anyCard, ichor);
+          anyCard.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, anyCard.field_2280, class_238.field_1989.field_81.field_614, 60f);
+          seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
+          seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, 0f));
+          t.activationSound.field_4062 = false;
+          t.activationSound.method_28(seb.method_506());
+          break;
+        }
       }
+    }
+  }
+  public static void DefaultRecipes() {
+    API.AddDejectionRecipe(API.DejectionRecipe.Default(VA.fire, VA.earth));
+    API.AddDejectionRecipe(API.DejectionRecipe.Default(VA.earth, VA.water));
+    API.AddDejectionRecipe(API.DejectionRecipe.Default(VA.water, VA.air));
+    API.AddDejectionRecipe(API.DejectionRecipe.Default(VA.air, VA.fire));
+    if (EM.uncommonPrimesAtoms.bellum is not null) {
+      API.AddDejectionRecipe(API.DejectionRecipe.Extraordinary(
+        EM.uncommonPrimesAtoms.obscurum, EM.uncommonPrimesAtoms.bellum));
+      API.AddDejectionRecipe(API.DejectionRecipe.Extraordinary(
+        EM.uncommonPrimesAtoms.bellum, EM.uncommonPrimesAtoms.lux));
+      API.AddDejectionRecipe(API.DejectionRecipe.Extraordinary(
+        EM.uncommonPrimesAtoms.lux, EM.uncommonPrimesAtoms.pax));
+      API.AddDejectionRecipe(API.DejectionRecipe.Extraordinary(
+        EM.uncommonPrimesAtoms.pax, EM.uncommonPrimesAtoms.obscurum));
     }
   }
 

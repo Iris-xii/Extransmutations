@@ -8,6 +8,8 @@ using PartTypes = class_191;
 using Permissions = enum_149;
 using AtomTypes = class_175;
 using Texture = class_256;
+using VA = Brimstone.API.VanillaAtoms;
+using static ExtransmutationsMod;
 
 public static class GlyphRevolution {
   public static PartType LoadPuzzleContent(Textures t) {
@@ -47,54 +49,26 @@ public static class GlyphRevolution {
     QApi.AddPartTypeToPanel(cardinalCycle, false);
     return cardinalCycle;
   }
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t, bool doExtraordinary) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
     if (sim.FindAtomRelative(part, new(-1, 0)).method_99(out AtomReference atomCal1) &&
               sim.FindAtomRelative(part, new(0, 0)).method_99(out AtomReference atomTransmute) &&
               sim.FindAtomRelative(part, new(1, 0)).method_99(out AtomReference atomCal2) &&
               (atomTransmute.field_2280 == atomCal1.field_2280) &&
               (atomCal1.field_2280 == atomCal2.field_2280)
           ) {
-      var sharedType = atomTransmute.field_2280;
-      var saltType = AtomTypes.field_1675;
-      var targetType = AtomTypes.field_1675;
+      var solution = seb.method_502();
+      var puzzle = solution.method_1934();
+      var partList = solution.field_3919;
 
-      var transOk = true;
-      if (sharedType == AtomTypes.field_1676)  // Air
-           {
-        targetType = AtomTypes.field_1679;
-      }
-      else if (sharedType == AtomTypes.field_1677) // Earth
-      {
-        targetType = AtomTypes.field_1678;
-      }
-      else if (sharedType == AtomTypes.field_1678) // Fire
-      {
-        targetType = AtomTypes.field_1676;
-      }
-      else if (sharedType == AtomTypes.field_1679) // Water
-      {
-        targetType = AtomTypes.field_1677;
-      }
-      else if (doExtraordinary
-        && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.bellum) {
-        targetType = ExtransmutationsMod.uncommonPrimesAtoms.obscurum;
-      }
-      else if (doExtraordinary
-        && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.lux) {
-        targetType = ExtransmutationsMod.uncommonPrimesAtoms.bellum;
-      }
-      else if (doExtraordinary
-        && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.pax) {
-        targetType = ExtransmutationsMod.uncommonPrimesAtoms.lux;
-      }
-      else if (doExtraordinary
-        && sharedType == ExtransmutationsMod.uncommonPrimesAtoms.obscurum) {
-        targetType = ExtransmutationsMod.uncommonPrimesAtoms.pax;
-      }
-      else {
-        transOk = false;
-      }
-      if (transOk) {
+      var sharedType = atomTransmute.field_2280;
+      foreach (var recipe in API.revolutionRecipes) {
+        if (!API.ConditionsOk(recipe.conditions, puzzle, partList)) { continue; }
+        if (recipe.cardinal != sharedType) { continue; }
+
+        var targetType = recipe.transmutesTo;
+        var saltType = recipe.saltOutput;
+
+
         atomTransmute.field_2277.method_1106(targetType, atomTransmute.field_2278);
         atomTransmute.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, atomTransmute.field_2280, class_238.field_1989.field_81.field_614, 60f); //30f
 
@@ -106,17 +80,70 @@ public static class GlyphRevolution {
         class_238.field_1991.field_1844.method_28(seb.method_506());
 
 
-        //Vector2 param_5378 = class_187.field_1742.method_492(part.method_1161() + new HexIndex(0, 0).Rotated(part.method_1163()));
-        //Vector2 param_5378 = class_187.field_1742.method_492(part.method_1161() + new HexIndex(0, 0).Rotated(part.method_1163()));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(-1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
 
-        //Vector2 param_5378b = class_187.field_1742.method_492(part.method_1161() + new HexIndex(2, 0).Rotated(part.method_1163()));
+
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new(0, 0))), t.cycleGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         t.activationSound.field_4062 = false;
-        t.activationSound.method_28(seb.method_506()); 
+        t.activationSound.method_28(seb.method_506());
+        break;
       }
+    }
+  }
+
+  internal static void DefaultRecipes() {
+    API.AddRevolutionRecipe(new() {
+      conditions = API.NoConditions(),
+      cardinal = VA.air,
+      transmutesTo = VA.water,
+      saltOutput = VA.salt,
+    });
+    API.AddRevolutionRecipe(new() {
+      conditions = API.NoConditions(),
+      cardinal = VA.water,
+      transmutesTo = VA.earth,
+      saltOutput = VA.salt,
+    });
+    API.AddRevolutionRecipe(new() {
+      conditions = API.NoConditions(),
+      cardinal = VA.earth,
+      transmutesTo = VA.fire,
+      saltOutput = VA.salt,
+    });
+    API.AddRevolutionRecipe(new() {
+      conditions = API.NoConditions(),
+      cardinal = VA.fire,
+      transmutesTo = VA.air,
+      saltOutput = VA.salt,
+    });
+    // EXTRAORDINARY
+    if (uncommonPrimesAtoms.bellum is not null) {
+      API.AddRevolutionRecipe(new() {
+        conditions = API.ExtraordinaryConditions(),
+        cardinal = uncommonPrimesAtoms.bellum,
+        transmutesTo = uncommonPrimesAtoms.obscurum,
+        saltOutput = VA.salt,
+      });
+      API.AddRevolutionRecipe(new() {
+        conditions = API.ExtraordinaryConditions(),
+        cardinal = uncommonPrimesAtoms.obscurum,
+        transmutesTo = uncommonPrimesAtoms.pax,
+        saltOutput = VA.salt,
+      });
+      API.AddRevolutionRecipe(new() {
+        conditions = API.ExtraordinaryConditions(),
+        cardinal = uncommonPrimesAtoms.pax,
+        transmutesTo = uncommonPrimesAtoms.lux,
+        saltOutput = VA.salt,
+      });
+      API.AddRevolutionRecipe(new() {
+        conditions = API.ExtraordinaryConditions(),
+        cardinal = uncommonPrimesAtoms.lux,
+        transmutesTo = uncommonPrimesAtoms.bellum,
+        saltOutput = VA.salt,
+      });
     }
   }
 }

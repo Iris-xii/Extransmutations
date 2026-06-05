@@ -13,6 +13,10 @@ using VA = Brimstone.API.VanillaAtoms;
 public static class API {
   internal static List<Wheel> completionWheels = new();
   internal static List<CompletionRecipe> completionRecipes = new();
+  internal static List<InversionRecipe> inversionRecipes = new();
+  internal static List<RevolutionRecipe> revolutionRecipes = new();
+  internal static List<DejectionRecipe> dejectionRecipes = new();
+  internal static List<RestorationCardinal> restorationCardinals = new() {};
 
 
   public record struct Wheel {
@@ -55,6 +59,10 @@ public static class API {
     requiredPerm = null,
     requiredGlyphName = null,
   };
+  internal static RecipeConditions ExtraordinaryConditions() => new() {
+    requiredPerm = null,
+    requiredGlyphName = "extransmutations-extraordinary",
+  };
 
   /// <summary>
   /// Completion Recipe. c1,c2,c3 are the 'cardinal' equivalent that may go
@@ -74,14 +82,50 @@ public static class API {
     public AtomType output;
     public AtomType saltOutput;
   }
+  public record struct InversionRecipe {
+    public RecipeConditions conditions;
+    public AtomType cardinal;
+    public AtomType invertsTo;
+    public AtomType saltOutput;
+  }
+  public record struct RevolutionRecipe {
+    public RecipeConditions conditions;
+    public AtomType cardinal;
+    public AtomType transmutesTo;
+    public AtomType saltOutput;
+  }
+  public record struct DejectionRecipe { // TODO
+    public RecipeConditions conditions;
+    public AtomType cardinal;
+    public AtomType transmutesTo;
+    public AtomType ichorOutput;
+    public static DejectionRecipe Default(AtomType cardinal, AtomType to) => new() {
+      conditions = NoConditions(),
+      cardinal = cardinal,
+      transmutesTo = to,
+      ichorOutput = ExtransmutationsMod.Ichor,
+    };
+    internal static DejectionRecipe Extraordinary(AtomType cardinal, AtomType to) => new() {
+      conditions = ExtraordinaryConditions(),
+      cardinal = cardinal,
+      transmutesTo = to,
+      ichorOutput = ExtransmutationsMod.Ichor,
+    };
+  }
+  public record struct RestorationCardinal {
+    public RecipeConditions conditions;
+    public AtomType cardinal;
+  }
 
   /// <summary>
   /// Allow the Glyph of Completion to use this wheel in its recipes.
   /// </summary>
   public static void AddCompletionWheel(Wheel wheel) => completionWheels.Add(wheel);
-
   public static void AddCompletionRecipe(CompletionRecipe completionRecipe) => completionRecipes.Add(completionRecipe);
-
-
+  public static void AddInversionRecipe(InversionRecipe inversionRecipe) => inversionRecipes.Add(inversionRecipe);
+  public static void AddRevolutionRecipe(RevolutionRecipe revolutionRecipe) => revolutionRecipes.Add(revolutionRecipe);
+  public static void AddDejectionRecipe(DejectionRecipe dejectionRecipe) => dejectionRecipes.Add(dejectionRecipe);
+  public static void AddRestorationCardinal(AtomType cardinalLike) => restorationCardinals.Add(new() {conditions = NoConditions(),cardinal = cardinalLike});
+  public static void AddRestorationCardinal(AtomType cardinalLike,RecipeConditions cond) => restorationCardinals.Add(new() {conditions = cond,cardinal = cardinalLike});
 
 }

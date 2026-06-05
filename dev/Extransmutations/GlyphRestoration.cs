@@ -10,6 +10,8 @@ using Texture = class_256;
 using VanillaAtoms = Brimstone.API.VanillaAtoms;
 
 
+using static ExtransmutationsMod;
+
 public static class GlyphRestoration {
 
   public static PartType LoadPuzzleContent(Textures t) {
@@ -52,16 +54,17 @@ public static class GlyphRestoration {
   public static void Activate(Sim sim,
       SolutionEditorBase seb,
       Part part,
-      Textures t,
-      bool doExtraordinary) {
+      Textures t) {
     var offsetFlash = new Vector2(-72, 0);
-    List<AtomType> allowedCardinals = new() { VanillaAtoms.fire, VanillaAtoms.water, VanillaAtoms.air, VanillaAtoms.earth };
-    if (doExtraordinary) {
-      allowedCardinals.Add(ExtransmutationsMod.uncommonPrimesAtoms.bellum);
-      allowedCardinals.Add(ExtransmutationsMod.uncommonPrimesAtoms.pax);
-      allowedCardinals.Add(ExtransmutationsMod.uncommonPrimesAtoms.lux);
-      allowedCardinals.Add(ExtransmutationsMod.uncommonPrimesAtoms.obscurum);
-    }
+
+    var solution = seb.method_502();
+    var puzzle = solution.method_1934();
+    var partList = solution.field_3919;
+
+    List<AtomType> allowedCardinals = API.restorationCardinals
+      .Where(c => API.ConditionsOk(c.conditions, puzzle, partList))
+      .Select(c => c.cardinal)
+      .ToList();
     if (sim.FindAtomRelative(part, new(0, 0)).method_99(out var ichorRef)
         && sim.FindAtomRelative(part, new(1, 0)).method_99(out var cardinalRef)
         && allowedCardinals.Contains(cardinalRef.field_2280)
@@ -93,10 +96,22 @@ public static class GlyphRestoration {
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.ichorGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         t.disposalSound.field_4062 = false;
-        t.disposalSound.method_28(seb.method_506()); 
+        t.disposalSound.method_28(seb.method_506());
         Brimstone.API.ForceRecomputeBonds(moleculeCardinal);
         Brimstone.API.ForceRecomputeBonds(moleculeIchor);
       }
+    }
+  }
+  public static void DefaultCardinals() {
+    API.AddRestorationCardinal(VanillaAtoms.water);
+    API.AddRestorationCardinal(VanillaAtoms.earth);
+    API.AddRestorationCardinal(VanillaAtoms.fire);
+    API.AddRestorationCardinal(VanillaAtoms.air);
+    if (uncommonPrimesAtoms.bellum is not null) {
+      API.AddRestorationCardinal(uncommonPrimesAtoms.bellum, API.ExtraordinaryConditions());
+      API.AddRestorationCardinal(uncommonPrimesAtoms.pax, API.ExtraordinaryConditions());
+      API.AddRestorationCardinal(uncommonPrimesAtoms.lux, API.ExtraordinaryConditions());
+      API.AddRestorationCardinal(uncommonPrimesAtoms.obscurum, API.ExtraordinaryConditions());
     }
   }
 

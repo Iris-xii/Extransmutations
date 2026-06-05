@@ -184,10 +184,7 @@ public static class GlyphCompletion {
     }
   }
 
-  internal static API.RecipeConditions ExtraordinaryConditions() => new() {
-    requiredPerm = null,
-    requiredGlyphName = "extransmutations-extraordinary",
-  };
+
 
   internal static void DefaultRecipes() {
     API.AddCompletionRecipe(new API.CompletionRecipe() {
@@ -229,7 +226,7 @@ public static class GlyphCompletion {
     // EXTRAORDINARY
     if (uncommonPrimesAtoms.bellum is not null) {
       API.AddCompletionRecipe(new API.CompletionRecipe() {
-        conditions = ExtraordinaryConditions(),
+        conditions = API.ExtraordinaryConditions(),
         saltElement = VA.salt,
         c1 = uncommonPrimesAtoms.pax,
         c2 = uncommonPrimesAtoms.lux,
@@ -238,7 +235,7 @@ public static class GlyphCompletion {
         saltOutput = uncommonPrimesAtoms.bellum,
       });
       API.AddCompletionRecipe(new API.CompletionRecipe() {
-        conditions = ExtraordinaryConditions(),
+        conditions = API.ExtraordinaryConditions(),
         saltElement = VA.salt,
         c1 = uncommonPrimesAtoms.pax,
         c2 = uncommonPrimesAtoms.lux,
@@ -247,7 +244,7 @@ public static class GlyphCompletion {
         saltOutput = uncommonPrimesAtoms.obscurum,
       });
       API.AddCompletionRecipe(new API.CompletionRecipe() {
-        conditions = ExtraordinaryConditions(),
+        conditions = API.ExtraordinaryConditions(),
         saltElement = VA.salt,
         c1 = uncommonPrimesAtoms.pax,
         c2 = uncommonPrimesAtoms.obscurum,
@@ -256,7 +253,7 @@ public static class GlyphCompletion {
         saltOutput = uncommonPrimesAtoms.lux,
       });
       API.AddCompletionRecipe(new API.CompletionRecipe() {
-        conditions = ExtraordinaryConditions(),
+        conditions = API.ExtraordinaryConditions(),
         saltElement = VA.salt,
         c1 = uncommonPrimesAtoms.lux,
         c2 = uncommonPrimesAtoms.obscurum,
