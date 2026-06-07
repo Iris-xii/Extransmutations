@@ -91,7 +91,8 @@ public static class GlyphAeration {
         t.aerationSound.method_28(seb.method_506());
         pss.field_2743 = true;
         pss.field_2744 = new AtomType[] { VanillaAtoms.air };
-        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.aerationBreathe, 30f, Vector2.Zero, 0f));
+        var rotation = part.method_1163().ToRadians();
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.aerationBreathe, 30f, Vector2.Zero, rotation));
         Brimstone.API.RemoveAtom(saltSpot);
         Brimstone.API.DrawFallingAtom(seb,saltSpot);
       }

@@ -94,7 +94,7 @@ public class Resources {
   public Sound cardinalCompletionSound = Sound("cardinal_completion_sound");
   public Sound cardinalInversionSound = Sound("cardinal_inversion_sound");
   public Sound cardinalRotationSound = Sound("cardinal_rotation_sound");
-  public Sound compactionSound = Sound("compaction_sound");
+  public Sound compactionSound = Sound("compaction_sound",0.3f);
   public Sound dejectionSound = Sound("dejection_sound");
   public Sound inductionSound = Sound("induction_sound");
   public Sound recombinationSound = Sound("recombination_sound");
