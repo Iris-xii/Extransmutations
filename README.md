@@ -43,6 +43,6 @@ The Glyph of Restoration destroys all atoms of ichor present in the molecule ove
 ### Glyph of the Extraordinary (Requires UncommonAlchemicalPrimes)
 Compat glyph enabling extra transmutations with UncommonAlchemicalPrimes' atoms.
 
-
+## Credits & Thanks
 Thanks to Greenfield for general helpfulness all around, Brimstone, and the graphics for the Dejection iris and Aeration!
 Thanks to `Charlotte and The Daemon` for basically all of the glyph noises!
