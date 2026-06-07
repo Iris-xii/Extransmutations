@@ -61,13 +61,16 @@ public static class GlyphLiquidation {
 
       if(doTransmute) {
         if(hasSalt1) {
+          seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
           Brimstone.API.ChangeAtom(salt1,VanillaAtoms.water);
           salt1.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, salt1.field_2280, class_238.field_1989.field_81.field_614, 60f); //30f
         }
         if(hasSalt2) {
+          seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(-1, 2))), t.bowlGlow, 30f, Vector2.Zero, 0f));
           Brimstone.API.ChangeAtom(salt2,VanillaAtoms.water);
           salt2.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, salt2.field_2280, class_238.field_1989.field_81.field_614, 60f); //30f
         }
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.bowlGlow, 30f, Vector2.Zero, 0f));
         Brimstone.API.ChangeAtom(qs,VanillaAtoms.lead);
         qs.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, qs.field_2280, class_238.field_1989.field_81.field_614, 60f); //30f
         t.activationSound.field_4062 = false;

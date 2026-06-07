@@ -89,6 +89,7 @@ public static class GlyphAeration {
       if (doTransmute) {
         pss.field_2743 = true;
         pss.field_2744 = new AtomType[] { VanillaAtoms.air };
+        seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.aerationBreathe, 30f, Vector2.Zero, 0f));
         Brimstone.API.RemoveAtom(saltSpot);
         Brimstone.API.DrawFallingAtom(seb,saltSpot);
       }

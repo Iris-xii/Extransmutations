@@ -88,4 +88,5 @@ public class Textures {
   public Sound activationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_duplication").method_1087();
   public Sound fancyActivationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_unification").method_1087();
   public Texture[] bowlGlow = Brimstone.API.GetAnimation("textures/parts/bowl_glow.array","a",9);
+  public Texture[] aerationBreathe = Brimstone.API.GetAnimation("textures/parts/aeration_breath.array","breath",16);
 }

@@ -44,4 +44,5 @@ The Glyph of Restoration destroys all atoms of ichor present in the molecule ove
 Compat glyph enabling extra transmutations with UncommonAlchemicalPrimes' atoms.
 
 
-Thanks to Greenfield for general helpfulness all around, Brimstone, and the graphics for the Dejection iris!
+Thanks to Greenfield for general helpfulness all around, Brimstone, and the graphics for the Dejection iris and Aeration!
+Thanks to `Charlotte and The Daemon` for basically all of the glyph noises!
