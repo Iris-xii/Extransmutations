@@ -12,7 +12,7 @@ using VanillaAtoms = Brimstone.API.VanillaAtoms;
 
 public static class GlyphInduction {
 
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-induction",
  "Glyph of Induction",
  "Extransmutations");
@@ -57,13 +57,13 @@ public static class GlyphInduction {
   }
 
   public static void Activate(
-    Dictionary<Atom, AtomType> previousTypeOfAtom, 
+    Dictionary<Atom, AtomType> previousTypeOfAtom,
     Dictionary<HexIndex, int> inductionHooksCount,
     HashSet<HexIndex> inductionSaltSpots,
     Sim sim,
     SolutionEditorBase seb,
     Part part,
-    Textures t) {
+    Resources t) {
     Dictionary<Part, PartSimState> partSimStates = sim.field_3821;
     PartSimState pss = partSimStates[part];
 
@@ -96,6 +96,8 @@ public static class GlyphInduction {
       //  );
       //}
       if (doTransmute) {
+        t.inductionSound.field_4062 = false;
+        t.inductionSound.method_28(seb.method_506());
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
         Brimstone.API.ChangeAtom(salt, VanillaAtoms.fire);
         salt.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, salt.field_2280, class_238.field_1989.field_81.field_614, 60f); //30f

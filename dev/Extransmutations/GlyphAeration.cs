@@ -10,7 +10,7 @@ using Texture = class_256;
 using VanillaAtoms = Brimstone.API.VanillaAtoms;
 
 public static class GlyphAeration {
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-aeration",
     "Glyph of Aeration",
     "Extransmutations");
@@ -74,7 +74,7 @@ public static class GlyphAeration {
     return glyphAeration;
   }
 
-  public static void Activate(bool firstHalf, Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(bool firstHalf, Sim sim, SolutionEditorBase seb, Part part, Resources t) {
     PartSimState pss = sim.field_3821[part];
     if (pss.field_2743) {
       Brimstone.API.AddAtom(sim, part, new(1, 0), pss.field_2744[0]);
@@ -86,7 +86,9 @@ public static class GlyphAeration {
         !occupiedAir
         && saltNotHeld
         && saltSpot.field_2280 == VanillaAtoms.salt;
-      if (doTransmute) {
+      if (doTransmute) {      
+        t.aerationSound.field_4062 = false;
+        t.aerationSound.method_28(seb.method_506());
         pss.field_2743 = true;
         pss.field_2744 = new AtomType[] { VanillaAtoms.air };
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.aerationBreathe, 30f, Vector2.Zero, 0f));

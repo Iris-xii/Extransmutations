@@ -24,7 +24,7 @@ public static class GlyphCompletion {
     return filtered.Max();
   }
 
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-cardinal-completion-v2",
     "Glyph of Cardinal Completion",
     "Extransmutations");
@@ -90,7 +90,7 @@ public static class GlyphCompletion {
 
   internal static HexIndex[] CARDINAL_POSITIONS = new HexIndex[] { new(1, 0), new(0, 0), new(1, -1) };
   internal static HexIndex SALT_POSITION = new(0, 1);
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Resources t) {
     var solution = seb.method_502();
     var puzzle = solution.method_1934();
     var version = GetVersion(puzzle.CustomPermissions);
@@ -178,8 +178,8 @@ public static class GlyphCompletion {
       seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
       seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, -1))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
       seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.saltGlyphArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-      t.fancyActivationSound.field_4062 = false;
-      t.fancyActivationSound.method_28(seb.method_506());
+      t.cardinalCompletionSound.field_4062 = false;
+      t.cardinalCompletionSound.method_28(seb.method_506());
       break;
     }
   }

@@ -13,7 +13,7 @@ using VanillaAtoms = Brimstone.API.VanillaAtoms;
 
 public static class GlyphRecombination {
 
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-recombination",
     "Glyph of Recombination",
     "Extransmutations: Ichor");
@@ -53,7 +53,7 @@ public static class GlyphRecombination {
     QApi.AddPartTypeToPanel(glyphRecombination, false);
     return glyphRecombination;
   }
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Resources t) {
     var allPresent = sim.FindAtomRelative(part, new HexIndex(0, 0)).method_99(out AtomReference ichor);
     allPresent = sim.FindAtomRelative(part, new HexIndex(1, 0)).method_99(out AtomReference salt1) && allPresent;
     allPresent = sim.FindAtomRelative(part, new HexIndex(0, 1)).method_99(out AtomReference salt2) && allPresent;
@@ -66,11 +66,12 @@ public static class GlyphRecombination {
       var transmute = saltNotHeld && saltIsSalt && ichorIsIchor;
 
       if (transmute) {
-
+        t.recombinationSound.field_4062 = false;
+        t.recombinationSound.method_28(seb.method_506());
         Brimstone.API.ChangeAtom(ichor, VanillaAtoms.salt);
         Brimstone.API.RemoveAtom(salt1);
         Brimstone.API.RemoveAtom(salt2);
-        var offsetFlash = new Vector2(-72,0);
+        var offsetFlash = new Vector2(-72, 0);
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.ichorGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.destroyAnim, 30f, offsetFlash, /*part.method_1163().ToRadians()*/ 0f));

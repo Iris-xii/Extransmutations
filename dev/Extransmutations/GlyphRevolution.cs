@@ -12,7 +12,7 @@ using VA = Brimstone.API.VanillaAtoms;
 using static ExtransmutationsMod;
 
 public static class GlyphRevolution {
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-cardinal-revolution",
     "Glyph of Cardinal Revolution",
     "Extransmutations");
@@ -49,7 +49,7 @@ public static class GlyphRevolution {
     QApi.AddPartTypeToPanel(cardinalCycle, false);
     return cardinalCycle;
   }
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Resources t) {
     if (sim.FindAtomRelative(part, new(-1, 0)).method_99(out AtomReference atomCal1) &&
               sim.FindAtomRelative(part, new(0, 0)).method_99(out AtomReference atomTransmute) &&
               sim.FindAtomRelative(part, new(1, 0)).method_99(out AtomReference atomCal2) &&
@@ -86,8 +86,8 @@ public static class GlyphRevolution {
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new(0, 0))), t.cycleGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        t.activationSound.field_4062 = false;
-        t.activationSound.method_28(seb.method_506());
+        t.cardinalRotationSound.field_4062 = false;
+        t.cardinalRotationSound.method_28(seb.method_506());
         break;
       }
     }

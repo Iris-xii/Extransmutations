@@ -11,7 +11,7 @@ using VanillaAtoms = Brimstone.API.VanillaAtoms;
 
 public static class GlyphLiquidation {
 
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-liquidation",
     "Glyph of Liquidation",
     "Extransmutations");
@@ -50,7 +50,7 @@ public static class GlyphLiquidation {
     QApi.AddPartTypeToPanel(glyphLiquidation, false);
     return glyphLiquidation;
   }
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Resources t) {
     if(sim.FindAtomRelative(part,new(0,1)).method_99(out AtomReference qs)) {
       bool hasSalt1 = sim.FindAtomRelative(part,new(0, 0)).method_99(out AtomReference salt1);
       bool hasSalt2 = sim.FindAtomRelative(part,new(-1, 2)).method_99(out AtomReference salt2);
@@ -73,8 +73,8 @@ public static class GlyphLiquidation {
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 1))), t.bowlGlow, 30f, Vector2.Zero, 0f));
         Brimstone.API.ChangeAtom(qs,VanillaAtoms.lead);
         qs.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, qs.field_2280, class_238.field_1989.field_81.field_614, 60f); //30f
-        t.activationSound.field_4062 = false;
-        t.activationSound.method_28(seb.method_506()); 
+        t.liquidationSound.field_4062 = false;
+        t.liquidationSound.method_28(seb.method_506());
       }
     }
   }

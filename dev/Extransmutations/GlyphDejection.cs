@@ -15,7 +15,7 @@ using EM = ExtransmutationsMod;
 
 public static class GlyphDejection {
 
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
 
     QApi.AddPuzzlePermission("extransmutations-dejection",
     "Glyph of Dejection",
@@ -85,7 +85,7 @@ public static class GlyphDejection {
     return glyphDejection;
   }
   //(Fire -> x2 Earth -> x2 Water -> x2 Air -> x2 Fire)
-  public static void Activate(bool firstHalf, Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(bool firstHalf, Sim sim, SolutionEditorBase seb, Part part, Resources t) {
     var output1 = new HexIndex(1, 0);
     var output2 = new HexIndex(0, 1);
     PartSimState pss = sim.field_3821[part];
@@ -115,8 +115,8 @@ public static class GlyphDejection {
           anyCard.field_2279.field_2276 = new class_168(seb, 0, (enum_132)1, anyCard.field_2280, class_238.field_1989.field_81.field_614, 60f);
           seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
           seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.anyGlowArray, 30f, Vector2.Zero, 0f));
-          t.activationSound.field_4062 = false;
-          t.activationSound.method_28(seb.method_506());
+          t.dejectionSound.field_4062 = false;
+          t.dejectionSound.method_28(seb.method_506());
           break;
         }
       }

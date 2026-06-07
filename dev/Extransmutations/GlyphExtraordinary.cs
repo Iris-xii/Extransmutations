@@ -13,7 +13,7 @@ using VanillaAtoms = Brimstone.API.VanillaAtoms;
 public static class GlyphExtraordinary {
 
 
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-extraordinary",
     "Glyph of the Extraordinary",
     "Extransmutations");

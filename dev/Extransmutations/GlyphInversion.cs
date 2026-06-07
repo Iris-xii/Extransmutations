@@ -13,7 +13,7 @@ using VA = Brimstone.API.VanillaAtoms;
 using static ExtransmutationsMod;
 
 public static class GlyphInversion {
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-cardinal-inversion",
     "Glyph of Cardinal Inversion",
     "Extransmutations");
@@ -47,19 +47,19 @@ public static class GlyphInversion {
     QApi.AddPartTypeToPanel(cardinalInversion, false);
     return cardinalInversion;
   }
-  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Textures t) {
+  public static void Activate(Sim sim, SolutionEditorBase seb, Part part, Resources t) {
     var solution = seb.method_502();
     var puzzle = solution.method_1934();
-    var partList = solution.field_3919; 
+    var partList = solution.field_3919;
     if (sim.FindAtomRelative(part, new(0, 0)).method_99(out AtomReference atomTransmute) &&
             sim.FindAtomRelative(part, new(1, 0)).method_99(out AtomReference atomCalcify) &&
             /*!atomTransmute.field_2282 && !atomCalcify.field_2282 && */
             (atomTransmute.field_2280 == atomCalcify.field_2280)) {
-      var sharedType = atomTransmute.field_2280; 
+      var sharedType = atomTransmute.field_2280;
 
       foreach (var recipe in API.inversionRecipes) {
-        if(!API.ConditionsOk(recipe.conditions,puzzle,partList)) {continue;}
-        if(sharedType != recipe.cardinal) {continue;} 
+        if (!API.ConditionsOk(recipe.conditions, puzzle, partList)) { continue; }
+        if (sharedType != recipe.cardinal) { continue; }
         var targetType = recipe.invertsTo;
         var saltTarget = recipe.saltOutput;
 
@@ -74,8 +74,8 @@ public static class GlyphInversion {
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new(0, 0))), t.inversionGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(1, 0))), t.calcifyAnimation, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         class_238.field_1991.field_1844.method_28(seb.method_506());
-        t.activationSound.field_4062 = false;
-        t.activationSound.method_28(seb.method_506());
+        t.cardinalInversionSound.field_4062 = false; 
+        t.cardinalInversionSound.method_28(seb.method_506());
         break;
       }
     }

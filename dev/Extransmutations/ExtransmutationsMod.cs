@@ -209,18 +209,18 @@ public class ExtransmutationsMod : QuintessentialMod {
       pathToShade: "textures/atoms/ichor_shade");
     QApi.AddAtomType(Ichor);
 
-    Textures textures = new();
-    var glyphRevolution = GlyphRevolution.LoadPuzzleContent(textures);
-    var cardinalInversion = GlyphInversion.LoadPuzzleContent(textures);
-    var cardinalCompletion = GlyphCompletion.LoadPuzzleContent(textures);
-    var glyphDejection = GlyphDejection.LoadPuzzleContent(textures);
-    var glyphRecombination = GlyphRecombination.LoadPuzzleContent(textures);
-    var glyphAeration = GlyphAeration.LoadPuzzleContent(textures);
-    var glyphLiquidation = GlyphLiquidation.LoadPuzzleContent(textures);
-    var glyphCompaction = GlyphCompaction.LoadPuzzleContent(textures);
-    var glyphInduction = GlyphInduction.LoadPuzzleContent(textures);
-    var glyphExtraordinary = GlyphExtraordinary.LoadPuzzleContent(textures);
-    var glyphRestoration = GlyphRestoration.LoadPuzzleContent(textures);
+    Resources resources = new();
+    var glyphRevolution = GlyphRevolution.LoadPuzzleContent(resources);
+    var cardinalInversion = GlyphInversion.LoadPuzzleContent(resources);
+    var cardinalCompletion = GlyphCompletion.LoadPuzzleContent(resources);
+    var glyphDejection = GlyphDejection.LoadPuzzleContent(resources);
+    var glyphRecombination = GlyphRecombination.LoadPuzzleContent(resources);
+    var glyphAeration = GlyphAeration.LoadPuzzleContent(resources);
+    var glyphLiquidation = GlyphLiquidation.LoadPuzzleContent(resources);
+    var glyphCompaction = GlyphCompaction.LoadPuzzleContent(resources);
+    var glyphInduction = GlyphInduction.LoadPuzzleContent(resources);
+    var glyphExtraordinary = GlyphExtraordinary.LoadPuzzleContent(resources);
+    var glyphRestoration = GlyphRestoration.LoadPuzzleContent(resources);
 
     HashSet<HexIndex> inductionSaltSpots = new();
     Dictionary<HexIndex, int> inductionHooksCount = new();
@@ -285,16 +285,16 @@ public class ExtransmutationsMod : QuintessentialMod {
       }
       foreach (Part part in partList) {
         var partType = part.method_1159();
-        if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, textures); }
-        if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, textures); }
-        if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, textures); }
-        if (partType == glyphRestoration) { GlyphRestoration.Activate(sim, seb, part, textures); }
-        if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, textures); }
-        if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, textures); }
-        if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, textures); }
-        if (partType == glyphLiquidation) { GlyphLiquidation.Activate(sim, seb, part, textures); }
-        if (partType == glyphCompaction) { GlyphCompaction.Activate(sim, seb, part, textures); }
-        if (partType == glyphInduction) { GlyphInduction.Activate(previousTypeOfAtom, inductionHooksCount, inductionSaltSpots, sim, seb, part, textures); }
+        if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, resources); }
+        if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, resources); }
+        if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, resources); }
+        if (partType == glyphRestoration) { GlyphRestoration.Activate(sim, seb, part, resources); }
+        if (partType == glyphDejection) { GlyphDejection.Activate(first, sim, seb, part, resources); }
+        if (partType == glyphRecombination) { GlyphRecombination.Activate(sim, seb, part, resources); }
+        if (partType == glyphAeration) { GlyphAeration.Activate(first, sim, seb, part, resources); }
+        if (partType == glyphLiquidation) { GlyphLiquidation.Activate(sim, seb, part, resources); }
+        if (partType == glyphCompaction) { GlyphCompaction.Activate(sim, seb, part, resources); }
+        if (partType == glyphInduction) { GlyphInduction.Activate(previousTypeOfAtom, inductionHooksCount, inductionSaltSpots, sim, seb, part, resources); }
       }
 
       previousTypeOfAtom = currentTypeOfAtom;

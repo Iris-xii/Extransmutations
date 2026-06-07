@@ -14,7 +14,7 @@ using static ExtransmutationsMod;
 
 public static class GlyphRestoration {
 
-  public static PartType LoadPuzzleContent(Textures t) {
+  public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-restoration",
     "Glyph of Restoration",
     "Extransmutations: Ichor");
@@ -54,7 +54,7 @@ public static class GlyphRestoration {
   public static void Activate(Sim sim,
       SolutionEditorBase seb,
       Part part,
-      Textures t) {
+      Resources t) {
     var offsetFlash = new Vector2(-72, 0);
 
     var solution = seb.method_502();
@@ -95,8 +95,8 @@ public static class GlyphRestoration {
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.bowlGlow, 30f, Vector2.Zero, 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new(1, 0))), t.anyGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
         seb.field_3935.Add(new class_228(seb, (enum_7)1, class_187.field_1742.method_492(part.method_1184(new HexIndex(0, 0))), t.ichorGlowArray, 30f, Vector2.Zero, /*part.method_1163().ToRadians()*/ 0f));
-        t.disposalSound.field_4062 = false;
-        t.disposalSound.method_28(seb.method_506());
+        t.restorationSound.field_4062 = false;
+        t.restorationSound.method_28(seb.method_506());
         Brimstone.API.ForceRecomputeBonds(moleculeCardinal);
         Brimstone.API.ForceRecomputeBonds(moleculeIchor);
       }

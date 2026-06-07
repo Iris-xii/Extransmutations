@@ -1,4 +1,5 @@
 
+using System.Reflection;
 using Quintessential;
 
 namespace Extransmutations;
@@ -9,7 +10,7 @@ using Permissions = enum_149;
 using AtomTypes = class_175;
 using Texture = class_256;
 
-public class Textures {
+public class Resources {
   public Texture[] calcifyAnimation =
  Brimstone.API.GetAnimation("textures/parts/calcification_glyph_flash.array", "calcify_glyph", 10);
   public Texture bowlTexture = class_235.method_615("textures/parts/calcinator_bowl");
@@ -60,8 +61,8 @@ public class Textures {
   public Texture inductionBase = class_235.method_615("textures/parts/induction/base");
   public Texture inductionGlow = class_235.method_615("textures/parts/induction/glow");
   public Texture inductionStroke = class_235.method_615("textures/parts/induction/stroke");
-  public Texture markerLighting  = class_235.method_615("textures/parts/marker_lighting");
-  public Texture markerDetails  = class_235.method_615("textures/parts/marker_details");
+  public Texture markerLighting = class_235.method_615("textures/parts/marker_lighting");
+  public Texture markerDetails = class_235.method_615("textures/parts/marker_details");
   public Texture fireGlyph = class_235.method_615("textures/parts/fire_glyph");
   public Texture dejectionPanel = class_235.method_615("textures/panel/dejection_panel");
   public Texture recombinationPanel = class_235.method_615("textures/panel/recombination_panel");
@@ -74,19 +75,37 @@ public class Textures {
   public Texture extraordinaryStroke = class_235.method_615("textures/parts/extraordinary/stroke");
   public Texture extraordinaryGlyph = class_235.method_615("textures/parts/extraordinary_glyph");
   public Texture waterGlyph = class_235.method_615("textures/parts/water_glyph");
-  public Texture extraordinaryPanel = class_235.method_615("textures/parts/extraordinary/panel");  
+  public Texture extraordinaryPanel = class_235.method_615("textures/parts/extraordinary/panel");
   public Texture restorationBase = class_235.method_615("textures/parts/et_restoration/base");
   public Texture restorationGlow = class_235.method_615("textures/parts/et_restoration/glow");
   public Texture restorationStroke = class_235.method_615("textures/parts/et_restoration/stroke");
   public Texture restorationPanel = class_235.method_615("textures/parts/et_restoration/panel");
-  public Sound disposalSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_disposal").method_1087();
-  public Texture[] anyGlowArray = Brimstone.API.GetAnimation("textures/parts/any_cardinal.array","a",9);
-  public Texture[] saltGlyphArray = Brimstone.API.GetAnimation("textures/parts/salt_glyph.array","a",9);
-  public Texture[] inversionGlowArray = Brimstone.API.GetAnimation("textures/parts/cardinal_inversion.array","a",9);
-  public Texture[] cycleGlowArray = Brimstone.API.GetAnimation("textures/parts/cardinal_cycle.array","a",9);
-  public Texture[] ichorGlowArray = Brimstone.API.GetAnimation("textures/parts/ichor_glow.array","a",9);
-  public Sound activationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_duplication").method_1087();
-  public Sound fancyActivationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_unification").method_1087();
-  public Texture[] bowlGlow = Brimstone.API.GetAnimation("textures/parts/bowl_glow.array","a",9);
-  public Texture[] aerationBreathe = Brimstone.API.GetAnimation("textures/parts/aeration_breath.array","breath",16);
+  //public Sound disposalSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_disposal").method_1087();
+  public Texture[] anyGlowArray = Brimstone.API.GetAnimation("textures/parts/any_cardinal.array", "a", 9);
+  public Texture[] saltGlyphArray = Brimstone.API.GetAnimation("textures/parts/salt_glyph.array", "a", 9);
+  public Texture[] inversionGlowArray = Brimstone.API.GetAnimation("textures/parts/cardinal_inversion.array", "a", 9);
+  public Texture[] cycleGlowArray = Brimstone.API.GetAnimation("textures/parts/cardinal_cycle.array", "a", 9);
+  public Texture[] ichorGlowArray = Brimstone.API.GetAnimation("textures/parts/ichor_glow.array", "a", 9);
+  //public Sound activationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_duplication").method_1087();
+  //public Sound fancyActivationSound = Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(),"sounds/glyph_unification").method_1087();
+  public Texture[] bowlGlow = Brimstone.API.GetAnimation("textures/parts/bowl_glow.array", "a", 9);
+  public Texture[] aerationBreathe = Brimstone.API.GetAnimation("textures/parts/aeration_breath.array", "breath", 16);
+  public Sound aerationSound = Sound("aeration_sound");
+  public Sound cardinalCompletionSound = Sound("cardinal_completion_sound");
+  public Sound cardinalInversionSound = Sound("cardinal_inversion_sound");
+  public Sound cardinalRotationSound = Sound("cardinal_rotation_sound");
+  public Sound compactionSound = Sound("compaction_sound");
+  public Sound dejectionSound = Sound("dejection_sound");
+  public Sound inductionSound = Sound("induction_sound");
+  public Sound recombinationSound = Sound("recombination_sound");
+  public Sound restorationSound = Sound("restoration_sound");
+  public Sound liquidationSound = Sound("liquidation_sound");
+
+
+  internal static FieldInfo field = typeof(class_11).GetField("field_52", BindingFlags.Static | BindingFlags.NonPublic);
+  internal static Dictionary<string, float> volumeDictionary = (Dictionary<string, float>)field.GetValue(null);
+  internal static Sound Sound(string s, float volume = 0.4f) {
+    volumeDictionary.Add(s, volume);
+    return Brimstone.API.GetSound(Brimstone.API.GetContentPath("Extransmutations").method_1087(), $"sounds/{s}").method_1087();
+  }
 }
