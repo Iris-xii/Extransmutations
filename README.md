@@ -45,4 +45,5 @@ Compat glyph enabling extra transmutations with UncommonAlchemicalPrimes' atoms.
 
 ## Credits & Thanks
 Thanks to Greenfield for general helpfulness all around, Brimstone, and the graphics for the Dejection iris and Aeration!
+
 Thanks to `Charlotte and The Daemon` for basically all of the glyph noises!
