@@ -2,6 +2,7 @@
 using Quintessential;
 using MonoMod.RuntimeDetour;
 using MonoMod.Cil;
+using System.Diagnostics;
 
 namespace Extransmutations;
 
@@ -22,7 +23,10 @@ public class ExtransmutationsMod : QuintessentialMod {
   private ILHook ilhook_orig_method_1832;
   public Hook hook_GameLogic_method_946;
 
+  static private Stopwatch mLoadTimer = new();
+
   public override void Load() {
+    mLoadTimer = Stopwatch.StartNew();
     //hook_sim_method_1825 = new Hook(
     //  typeof(Sim).GetMethod("method_1825", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public),
     //  OnSimMethod1825); 
@@ -34,6 +38,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     //  typeof(PuzzleInfoScreen).GetMethod("method_1275", BF.NonPublic | BF.Instance),
     //  OnSolLoad
     //);
+    mLoadTimer.Stop();
   }
 
 
@@ -158,6 +163,7 @@ public class ExtransmutationsMod : QuintessentialMod {
 
 
   public override void PostLoad() {
+    mLoadTimer.Start();
     ilhook_orig_method_1832 = new ILHook(
       typeof(Sim).GetMethod("orig_method_1832", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic),
       ILMethod1832
@@ -189,6 +195,9 @@ public class ExtransmutationsMod : QuintessentialMod {
       wheelMolecule = null
     });
     DefaultRecipes();
+
+    mLoadTimer.Stop();
+    Log($"Loading EM has taken: {mLoadTimer.ElapsedMilliseconds}ms ({((double)mLoadTimer.ElapsedMilliseconds)/1000.0}s)");
   }
 
   private void DefaultRecipes() {
@@ -203,6 +212,7 @@ public class ExtransmutationsMod : QuintessentialMod {
 
 
   public override void LoadPuzzleContent() {
+    mLoadTimer.Start();
     Ichor = Brimstone.API.CreateNormalAtom(81, "Extransmutations", "Ichor",
       pathToSymbol: "textures/atoms/ichor",
       pathToDiffuse: "textures/atoms/ichor_diffuse",
@@ -300,6 +310,7 @@ public class ExtransmutationsMod : QuintessentialMod {
       previousTypeOfAtom = currentTypeOfAtom;
       currentTypeOfAtom = new();
     });
+    mLoadTimer.Stop();
   }
   public override void Unload() {
     hook_sim_method_1825 = null;
