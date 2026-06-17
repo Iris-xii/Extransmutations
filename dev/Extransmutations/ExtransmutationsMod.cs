@@ -12,6 +12,7 @@ using Permissions = enum_149;
 using AtomTypes = class_175;
 using Texture = class_256;
 using BF = System.Reflection.BindingFlags;
+using Extrawners;
 
 //dotnet build;rm ..\..\Extransmutations.dll;cp .\bin\Debug\net4.5.2\Extransmutations.dll ..\..\Extransmutations.dll
 public class ExtransmutationsMod : QuintessentialMod {
@@ -94,7 +95,9 @@ public class ExtransmutationsMod : QuintessentialMod {
     }
   }
   private static bool SupressOutputIfFalse(bool mustBeTrue, Sim s) {
-    if (!mustBeTrue) { return false; }
+    if (!mustBeTrue) {
+      return false;
+    }
     List<HexIndex> okList = new();
     foreach (Part part in s.field_3818.method_502().field_3919) {
       var isInputOutput = part.method_1159().method_310();
@@ -107,6 +110,9 @@ public class ExtransmutationsMod : QuintessentialMod {
         if (kv.Value.field_2275 != Ichor) { continue; }
         okList.Add(kv.Key.Rotated(partRotation) + hexPos);
       }
+    }
+    if (Brimstone.API.IsModLoaded("Extrawners")) {
+      DoExtrawnersAddRangeTo(ref okList);
     }
     // DEBUG
     //var seb = s.field_3818;
@@ -126,6 +132,38 @@ public class ExtransmutationsMod : QuintessentialMod {
       }
     }
     return true;
+  }
+  private static void UpdateExtrawnersFn(Sim s) {
+    if (!Brimstone.API.IsModLoaded("Extrawners")) { return; }
+    List<HexIndex> okList = new();
+    foreach (Part part in s.field_3818.method_502().field_3919) {
+      var isInputOutput = part.method_1159().method_310();
+      var isOutput = part.method_1159().method_309();
+      if (!isInputOutput) { continue; }
+      Molecule molecMaybe = part.method_1185(s.field_3818.method_502());
+      var hexPos = part.method_1161();
+      var partRotation = part.method_1163();
+      foreach (var kv in molecMaybe.method_1100()) {
+        if (kv.Value.field_2275 != Ichor) { continue; }
+        okList.Add(kv.Key.Rotated(partRotation) + hexPos);
+      }
+    }
+    if (Brimstone.API.IsModLoaded("Extrawners")) {
+      DoExtrawnersAddRangeTo(ref okList);
+    }
+
+    foreach (Molecule m in s.field_3823) {
+      foreach (var kv in m.method_1100()) {
+        Atom atom = kv.Value;
+        if (atom.field_2275 == Ichor) {
+          HexIndex atomHex = kv.Key;
+          if (!okList.Contains(atomHex)) {
+            ExtransmutationsCompat.isIchorSuppressionActive = true;
+            return;
+          }
+        }
+      }
+    }
   }
 
   private static bool OnSimMethod1825(On.Sim.orig_method_1825 orig, Sim s) {
@@ -161,6 +199,18 @@ public class ExtransmutationsMod : QuintessentialMod {
     return orig(s);
   }
 
+  private static void DoExtransmissions() {
+    if (Brimstone.API.GetMod("Extransmissions").method_99(out var QM)
+      && QM is Extransmissions.ExtransmissionsMod EM) {
+      EM.shouldSuppressOutputs.Add((sim) => !SupressOutputIfFalse(true, sim));
+    }
+  }
+  private static void DoExtrawners() {
+    ExtransmutationsCompat.updateIsIchorSuppressionActive = UpdateExtrawnersFn;
+  }
+  private static void DoExtrawnersAddRangeTo(ref List<HexIndex> okList) {
+    okList.AddRange(ExtransmutationsCompat.IchorSafeSpots); 
+  }
 
   public override void PostLoad() {
     mLoadTimer.Start();
@@ -168,10 +218,8 @@ public class ExtransmutationsMod : QuintessentialMod {
       typeof(Sim).GetMethod("orig_method_1832", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic),
       ILMethod1832
     );
-    if (Brimstone.API.IsModLoaded("Extransmissions")
-    && Brimstone.API.GetMod("Extransmissions").method_99(out var QM)
-    && QM is Extransmissions.ExtransmissionsMod EM) {
-      EM.shouldSuppressOutputs.Add((sim) => !SupressOutputIfFalse(true, sim));
+    if (Brimstone.API.IsModLoaded("Extransmissions")) {
+      DoExtransmissions();
     }
     if (Brimstone.API.IsModLoaded("UncommonPrimes")) {
       try {
@@ -184,7 +232,9 @@ public class ExtransmutationsMod : QuintessentialMod {
       }
       catch (InvalidOperationException) { }
     }
-
+    if (Brimstone.API.IsModLoaded("Extrawners")) {
+      DoExtrawners();
+    }
 
     API.AddCompletionWheel(new() {
       wheelName = "uncommon-primes-servin",
@@ -197,7 +247,7 @@ public class ExtransmutationsMod : QuintessentialMod {
     DefaultRecipes();
 
     mLoadTimer.Stop();
-    Log($"Loading EM has taken: {mLoadTimer.ElapsedMilliseconds}ms ({((double)mLoadTimer.ElapsedMilliseconds)/1000.0}s)");
+    Log($"Loading EM has taken: {mLoadTimer.ElapsedMilliseconds}ms ({((double)mLoadTimer.ElapsedMilliseconds) / 1000.0}s)");
   }
 
   private void DefaultRecipes() {
@@ -281,7 +331,7 @@ public class ExtransmutationsMod : QuintessentialMod {
       //var moleculeList = sim.field_3823;
       //var gripperList = sim.HeldGrippers;
       inductionSaltSpots.Clear();
-      inductionHooksCount.Clear(); 
+      inductionHooksCount.Clear();
       foreach (Part part in partList) {
         var partType = part.method_1159();
         if (partType == glyphInduction) { inductionSaltSpots.Add(GlyphInduction.GetInductionSaltHex(part)); }
@@ -291,7 +341,7 @@ public class ExtransmutationsMod : QuintessentialMod {
           inductionHooksCount.TryGetValue(hookSpot, out value);
           value += 1;
           inductionHooksCount[hookSpot] = value;
-        } 
+        }
       }
       foreach (Part part in partList) {
         var partType = part.method_1159();
