@@ -25,10 +25,17 @@ public class Resources {
   public Texture oneByThreeGlow = class_235.method_615("textures/select/1by3_glow");
   public Texture completionPanel = class_235.method_615("textures/panel/completion_panel");
   public Texture inversionPanel = class_235.method_615("textures/panel/invert_panel");
+
   public Texture cyclePanel = class_235.method_615("textures/panel/cycle_panel");
+  public Texture cyclePanelV2 = class_235.method_615("textures/panel/cycle_panel_v2");
   public Texture cardinalCycleBase = class_235.method_615("textures/parts/cardinal_revolution/base");
   public Texture cardinalCycleGlow = class_235.method_615("textures/parts/cardinal_revolution/glow");
   public Texture cardinalCycleStroke = class_235.method_615("textures/parts/cardinal_revolution/stroke");
+  public Texture cardinalCycleBaseV2 = class_235.method_615("textures/parts/cardinal_revolution_v2/base");
+  public Texture cardinalCycleGlowV2 = class_235.method_615("textures/parts/cardinal_revolution_v2/glow");
+  public Texture cardinalCycleStrokeV2 = class_235.method_615("textures/parts/cardinal_revolution_v2/stroke");
+
+  
   public Texture cardinalInversionBase = class_235.method_615("textures/parts/cardinal_inversion/base");
   public Texture cardinalInversionGlow = class_235.method_615("textures/parts/cardinal_inversion/glow");
   public Texture cardinalInversionStroke = class_235.method_615("textures/parts/cardinal_inversion/stroke");

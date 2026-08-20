@@ -270,7 +270,8 @@ public class ExtransmutationsMod : QuintessentialMod {
     QApi.AddAtomType(Ichor);
 
     Resources resources = new();
-    var glyphRevolution = GlyphRevolution.LoadPuzzleContent(resources);
+    var glyphRevolutionV1 = GlyphRevolution.LoadPuzzleContent(resources,GlyphRevolution.Version.V1);
+    var glyphRevolutionV2 = GlyphRevolution.LoadPuzzleContent(resources,GlyphRevolution.Version.V2);
     var cardinalInversion = GlyphInversion.LoadPuzzleContent(resources);
     var cardinalCompletion = GlyphCompletion.LoadPuzzleContent(resources);
     var glyphDejection = GlyphDejection.LoadPuzzleContent(resources);
@@ -345,7 +346,8 @@ public class ExtransmutationsMod : QuintessentialMod {
       }
       foreach (Part part in partList) {
         var partType = part.method_1159();
-        if (partType == glyphRevolution /*&& first*/) { GlyphRevolution.Activate(sim, seb, part, resources); }
+        glyphRevolutionV1.RunCycle(partType,sim, seb, part, resources);
+        glyphRevolutionV2.RunCycle(partType,sim, seb, part, resources);
         if (partType == cardinalInversion) { GlyphInversion.Activate(sim, seb, part, resources); }
         if (partType == cardinalCompletion) { GlyphCompletion.Activate(sim, seb, part, resources); }
         if (partType == glyphRestoration) { GlyphRestoration.Activate(sim, seb, part, resources); }

@@ -10,13 +10,42 @@ using Texture = class_256;
 using VA = Brimstone.API.VanillaAtoms;
 
 #nullable enable
-public static class API {
+public static partial class API {
   internal static List<Wheel> completionWheels = new();
+  public static ICollection<Wheel> CompletionWheels {
+    get => completionWheels;
+    set => completionWheels = (List<Wheel>)value;
+  }
+
   internal static List<CompletionRecipe> completionRecipes = new();
+  public static ICollection<CompletionRecipe> CompletionRecipes {
+    get => completionRecipes;
+    set => completionRecipes = (List<CompletionRecipe>)value;
+  }
+
   internal static List<InversionRecipe> inversionRecipes = new();
+  public static ICollection<InversionRecipe> InversionRecipes {
+    get => inversionRecipes;
+    set => inversionRecipes = (List<InversionRecipe>)value;
+  }
+
   internal static List<RevolutionRecipe> revolutionRecipes = new();
+  public static ICollection<RevolutionRecipe> RevolutionRecipes {
+    get => revolutionRecipes;
+    set => revolutionRecipes = (List<RevolutionRecipe>)value;
+  }
+
   internal static List<DejectionRecipe> dejectionRecipes = new();
-  internal static List<RestorationCardinal> restorationCardinals = new() {};
+  public static ICollection<DejectionRecipe> DejectionRecipes {
+    get => dejectionRecipes;
+    set => dejectionRecipes = (List<DejectionRecipe>)value;
+  }
+
+  internal static List<RestorationCardinal> restorationCardinals = new() { };
+  public static ICollection<RestorationCardinal> RestorationCardinals {
+    get => restorationCardinals;
+    set => restorationCardinals = (List<RestorationCardinal>)value;
+  }
 
 
   public record struct Wheel {
@@ -116,16 +145,5 @@ public static class API {
     public RecipeConditions conditions;
     public AtomType cardinal;
   }
-
-  /// <summary>
-  /// Allow the Glyph of Completion to use this wheel in its recipes.
-  /// </summary>
-  public static void AddCompletionWheel(Wheel wheel) => completionWheels.Add(wheel);
-  public static void AddCompletionRecipe(CompletionRecipe completionRecipe) => completionRecipes.Add(completionRecipe);
-  public static void AddInversionRecipe(InversionRecipe inversionRecipe) => inversionRecipes.Add(inversionRecipe);
-  public static void AddRevolutionRecipe(RevolutionRecipe revolutionRecipe) => revolutionRecipes.Add(revolutionRecipe);
-  public static void AddDejectionRecipe(DejectionRecipe dejectionRecipe) => dejectionRecipes.Add(dejectionRecipe);
-  public static void AddRestorationCardinal(AtomType cardinalLike) => restorationCardinals.Add(new() {conditions = NoConditions(),cardinal = cardinalLike});
-  public static void AddRestorationCardinal(AtomType cardinalLike,RecipeConditions cond) => restorationCardinals.Add(new() {conditions = cond,cardinal = cardinalLike});
 
 }
