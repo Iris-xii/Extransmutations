@@ -26,7 +26,7 @@ public static class GlyphCompletion {
 
   public static PartType LoadPuzzleContent(Resources t) {
     QApi.AddPuzzlePermission("extransmutations-cardinal-completion-v2",
-    "Glyph of Cardinal Completion",
+    "Glyph of Card. Completion",
     "Extransmutations");
     PartType cardinalCompletion = new() {
       field_1528 = "extransmutations-cardinal-completion", // ID

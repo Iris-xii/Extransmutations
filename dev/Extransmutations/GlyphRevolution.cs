@@ -32,20 +32,22 @@ internal class GlyphRevolution {
 
   internal static GlyphRevolution LoadPuzzleContent(Resources t, Version v) {
     string ID = $"extransmutations-cardinal-revolution{PerVersion(v, "", "-v2")}";
-    if (v == Version.V2) {
-      QApi.AddPuzzlePermission(ID,
-      "Glyph of Cardinal Revolution",
-      "Extransmutations");
-    }
     Texture glow = PerVersion(v, t.cardinalCycleGlow, t.cardinalCycleGlowV2);
     Texture outline = PerVersion(v, t.cardinalCycleStroke, t.cardinalCycleStrokeV2);
     Texture panel = PerVersion(v, t.cyclePanel, t.cyclePanelV2);
     Texture glyphBase = PerVersion(v, t.cardinalCycleBase, t.cardinalCycleBaseV2);
     Vector2 vecCenter = PerVersion(v, new(123f, 47f), glyphBase.method_691());
+    string glyphName = PerVersion(v,
+      "Leyline of Cardinal Revolution",
+      "Triad of Cardinal Revolution");
+    string glyphNameShort = PerVersion(v,
+      "Leyline of Card. Revolution",
+      "Triad of Card. Revolution");
+    QApi.AddPuzzlePermission(ID,glyphNameShort,"Extransmutations");
     PartType cardinalCycle = new() {
       field_1528 = ID, // ID
-      field_1529 = class_134.method_253("Glyph of Cardinal Revolution", string.Empty), // Name
-      field_1530 = class_134.method_253("The glyph of Cardinal Revolution transmutes three matching atoms of the same cardinal into two salt atoms, and the next cardinal in the sequence Air -> Water -> Earth -> Fire -> Air (Clockwise along the chart of alchemical primes)", string.Empty), // Description
+      field_1529 = class_134.method_253(glyphName, string.Empty), // Name
+      field_1530 = class_134.method_253($"The {glyphName} transmutes three matching atoms of the same cardinal into two salt atoms, and the next cardinal in the sequence Air -> Water -> Earth -> Fire -> Air (Clockwise along the chart of alchemical primes)", string.Empty), // Description
       field_1531 = 10, // Cost
       field_1539 = true, // Is a glyph (?)
       field_1549 = glow, // Shadow/glow
