@@ -236,11 +236,11 @@ public class ExtransmutationsMod : QuintessentialMod {
       DoExtrawners();
     }
 
-    API.AddCompletionWheel(new() {
+    API.CompletionWheels.Add(new() {
       wheelName = "uncommon-primes-servin",
       wheelMolecule = GlyphCompletion.ServinMolec()
     });
-    API.AddCompletionWheel(new() {
+    API.CompletionWheels.Add(new() {
       wheelName = "baron",
       wheelMolecule = null
     });

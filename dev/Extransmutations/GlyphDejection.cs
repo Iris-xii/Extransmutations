@@ -123,18 +123,18 @@ public static class GlyphDejection {
     }
   }
   public static void DefaultRecipes() {
-    API.AddDejectionRecipe(API.DejectionRecipe.Default(VA.fire, VA.earth));
-    API.AddDejectionRecipe(API.DejectionRecipe.Default(VA.earth, VA.water));
-    API.AddDejectionRecipe(API.DejectionRecipe.Default(VA.water, VA.air));
-    API.AddDejectionRecipe(API.DejectionRecipe.Default(VA.air, VA.fire));
+    API.DejectionRecipes.Add(API.DejectionRecipe.Default(VA.fire, VA.earth));
+    API.DejectionRecipes.Add(API.DejectionRecipe.Default(VA.earth, VA.water));
+    API.DejectionRecipes.Add(API.DejectionRecipe.Default(VA.water, VA.air));
+    API.DejectionRecipes.Add(API.DejectionRecipe.Default(VA.air, VA.fire));
     if (EM.uncommonPrimesAtoms.bellum is not null) {
-      API.AddDejectionRecipe(API.DejectionRecipe.Extraordinary(
+      API.DejectionRecipes.Add(API.DejectionRecipe.Extraordinary(
         EM.uncommonPrimesAtoms.obscurum, EM.uncommonPrimesAtoms.bellum));
-      API.AddDejectionRecipe(API.DejectionRecipe.Extraordinary(
+      API.DejectionRecipes.Add(API.DejectionRecipe.Extraordinary(
         EM.uncommonPrimesAtoms.bellum, EM.uncommonPrimesAtoms.lux));
-      API.AddDejectionRecipe(API.DejectionRecipe.Extraordinary(
+      API.DejectionRecipes.Add(API.DejectionRecipe.Extraordinary(
         EM.uncommonPrimesAtoms.lux, EM.uncommonPrimesAtoms.pax));
-      API.AddDejectionRecipe(API.DejectionRecipe.Extraordinary(
+      API.DejectionRecipes.Add(API.DejectionRecipe.Extraordinary(
         EM.uncommonPrimesAtoms.pax, EM.uncommonPrimesAtoms.obscurum));
     }
   }

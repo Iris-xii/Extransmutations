@@ -127,25 +127,25 @@ internal class GlyphRevolution {
   }
 
   internal static void DefaultRecipes() {
-    API.AddRevolutionRecipe(new() {
+    API.RevolutionRecipes.Add(new() {
       conditions = API.NoConditions(),
       cardinal = VA.air,
       transmutesTo = VA.water,
       saltOutput = VA.salt,
     });
-    API.AddRevolutionRecipe(new() {
+    API.RevolutionRecipes.Add(new() {
       conditions = API.NoConditions(),
       cardinal = VA.water,
       transmutesTo = VA.earth,
       saltOutput = VA.salt,
     });
-    API.AddRevolutionRecipe(new() {
+    API.RevolutionRecipes.Add(new() {
       conditions = API.NoConditions(),
       cardinal = VA.earth,
       transmutesTo = VA.fire,
       saltOutput = VA.salt,
     });
-    API.AddRevolutionRecipe(new() {
+    API.RevolutionRecipes.Add(new() {
       conditions = API.NoConditions(),
       cardinal = VA.fire,
       transmutesTo = VA.air,
@@ -153,25 +153,25 @@ internal class GlyphRevolution {
     });
     // EXTRAORDINARY
     if (uncommonPrimesAtoms.bellum is not null) {
-      API.AddRevolutionRecipe(new() {
+      API.RevolutionRecipes.Add(new() {
         conditions = API.ExtraordinaryConditions(),
         cardinal = uncommonPrimesAtoms.bellum,
         transmutesTo = uncommonPrimesAtoms.obscurum,
         saltOutput = VA.salt,
       });
-      API.AddRevolutionRecipe(new() {
+      API.RevolutionRecipes.Add(new() {
         conditions = API.ExtraordinaryConditions(),
         cardinal = uncommonPrimesAtoms.obscurum,
         transmutesTo = uncommonPrimesAtoms.pax,
         saltOutput = VA.salt,
       });
-      API.AddRevolutionRecipe(new() {
+      API.RevolutionRecipes.Add(new() {
         conditions = API.ExtraordinaryConditions(),
         cardinal = uncommonPrimesAtoms.pax,
         transmutesTo = uncommonPrimesAtoms.lux,
         saltOutput = VA.salt,
       });
-      API.AddRevolutionRecipe(new() {
+      API.RevolutionRecipes.Add(new() {
         conditions = API.ExtraordinaryConditions(),
         cardinal = uncommonPrimesAtoms.lux,
         transmutesTo = uncommonPrimesAtoms.bellum,

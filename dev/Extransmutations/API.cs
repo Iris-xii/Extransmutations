@@ -1,3 +1,4 @@
+using System.Collections;
 using Quintessential;
 
 namespace Extransmutations;
@@ -9,43 +10,26 @@ using AtomTypes = class_175;
 using Texture = class_256;
 using VA = Brimstone.API.VanillaAtoms;
 
+
 #nullable enable
 public static partial class API {
   internal static List<Wheel> completionWheels = new();
-  public static ICollection<Wheel> CompletionWheels {
-    get => completionWheels;
-    set => completionWheels = (List<Wheel>)value;
-  }
+  public static IList<Wheel> CompletionWheels { get => completionWheels; }
 
   internal static List<CompletionRecipe> completionRecipes = new();
-  public static ICollection<CompletionRecipe> CompletionRecipes {
-    get => completionRecipes;
-    set => completionRecipes = (List<CompletionRecipe>)value;
-  }
+  public static IList<CompletionRecipe> CompletionRecipes { get => completionRecipes; }
 
   internal static List<InversionRecipe> inversionRecipes = new();
-  public static ICollection<InversionRecipe> InversionRecipes {
-    get => inversionRecipes;
-    set => inversionRecipes = (List<InversionRecipe>)value;
-  }
+  public static IList<InversionRecipe> InversionRecipes { get => inversionRecipes; }
 
   internal static List<RevolutionRecipe> revolutionRecipes = new();
-  public static ICollection<RevolutionRecipe> RevolutionRecipes {
-    get => revolutionRecipes;
-    set => revolutionRecipes = (List<RevolutionRecipe>)value;
-  }
+  public static IList<RevolutionRecipe> RevolutionRecipes { get => revolutionRecipes; }
 
   internal static List<DejectionRecipe> dejectionRecipes = new();
-  public static ICollection<DejectionRecipe> DejectionRecipes {
-    get => dejectionRecipes;
-    set => dejectionRecipes = (List<DejectionRecipe>)value;
-  }
+  public static IList<DejectionRecipe> DejectionRecipes { get => dejectionRecipes; }
 
   internal static List<RestorationCardinal> restorationCardinals = new() { };
-  public static ICollection<RestorationCardinal> RestorationCardinals {
-    get => restorationCardinals;
-    set => restorationCardinals = (List<RestorationCardinal>)value;
-  }
+  public static IList<RestorationCardinal> RestorationCardinals { get => restorationCardinals; }
 
 
   public record struct Wheel {
@@ -63,15 +47,15 @@ public static partial class API {
   /// <summary>
   /// Condtions that must be met for a recipe to be considered
   /// </summary>
-  public record struct RecipeConditions {
+  public record struct RecipeConditions() {
     /// <summary>
     /// If present, Custom Permission required for the recipe.
     /// </summary>
-    public string? requiredPerm;
+    public string? requiredPerm = null;
     /// <summary>
     /// If present, this glyph must be somewhere in the solution for the recipe.
     /// </summary>
-    public string? requiredGlyphName;
+    public string? requiredGlyphName = null;
   }
   internal static bool ConditionsOk(RecipeConditions conditions, Puzzle puzzle, List<Part> partList) {
     if (conditions.requiredPerm is not null
@@ -101,6 +85,8 @@ public static partial class API {
   /// these are the same in normal recipes.
   /// 
   /// Null AtomTypes (except output) are valid and ignored and mean 'no atom'
+  /// 
+  /// c1,c2,c3 are 'unordered', it doesn't matter which specific AtomType is c1 and which one is c3
   /// </summary>
   public record struct CompletionRecipe {
     public RecipeConditions conditions;
@@ -110,6 +96,56 @@ public static partial class API {
     public AtomType? c3;
     public AtomType output;
     public AtomType saltOutput;
+
+    /// <summary>
+    /// Generates four completion recipes for a 'simple' (vanilla-like) completion recipe
+    /// in which there are four cardinals, and placing three of them into Completion results in
+    /// the missing fourth.
+    /// </summary> 
+    public static IEnumerable<CompletionRecipe> Simple(
+     AtomType a1,
+     AtomType a2,
+     AtomType a3,
+     AtomType a4,
+     AtomType? maybeSalt = null,
+     RecipeConditions? maybeConditions = null) {
+      yield return new() {
+        conditions = maybeConditions ?? new(),
+        saltElement = maybeSalt ?? VA.salt,
+        c1 = a1,
+        c2 = a2,
+        c3 = a3,
+        output = a4,
+        saltOutput = a4,
+      };
+      yield return new() {
+        conditions = maybeConditions ?? new(),
+        saltElement = maybeSalt ?? VA.salt,
+        c1 = a1,
+        c2 = a2,
+        c3 = a4,
+        output = a3,
+        saltOutput = a3,
+      };
+      yield return new() {
+        conditions = maybeConditions ?? new(),
+        saltElement = maybeSalt ?? VA.salt,
+        c1 = a1,
+        c2 = a4,
+        c3 = a3,
+        output = a2,
+        saltOutput = a2,
+      };
+      yield return new() {
+        conditions = maybeConditions ?? new(),
+        saltElement = maybeSalt ?? VA.salt,
+        c1 = a4,
+        c2 = a2,
+        c3 = a3,
+        output = a1,
+        saltOutput = a1,
+      };
+    }
   }
   public record struct InversionRecipe {
     public RecipeConditions conditions;
@@ -123,7 +159,7 @@ public static partial class API {
     public AtomType transmutesTo;
     public AtomType saltOutput;
   }
-  public record struct DejectionRecipe { // TODO
+  public record struct DejectionRecipe {
     public RecipeConditions conditions;
     public AtomType cardinal;
     public AtomType transmutesTo;
@@ -141,6 +177,8 @@ public static partial class API {
       ichorOutput = ExtransmutationsMod.Ichor,
     };
   }
+
+  /// <summary> What restoration understands to count as a cardinal </summary>
   public record struct RestorationCardinal {
     public RecipeConditions conditions;
     public AtomType cardinal;

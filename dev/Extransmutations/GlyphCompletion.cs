@@ -187,45 +187,49 @@ public static class GlyphCompletion {
 
 
   internal static void DefaultRecipes() {
-    API.AddCompletionRecipe(new API.CompletionRecipe() {
-      conditions = API.NoConditions(),
-      saltElement = VA.salt,
-      c1 = VA.water,
-      c2 = VA.fire,
-      c3 = VA.earth,
-      output = VA.air,
-      saltOutput = VA.air,
-    });
-    API.AddCompletionRecipe(new API.CompletionRecipe() {
-      conditions = API.NoConditions(),
-      saltElement = VA.salt,
-      c1 = VA.air,
-      c2 = VA.fire,
-      c3 = VA.earth,
-      output = VA.water,
-      saltOutput = VA.water,
-    });
-    API.AddCompletionRecipe(new API.CompletionRecipe() {
-      conditions = API.NoConditions(),
-      saltElement = VA.salt,
-      c1 = VA.air,
-      c2 = VA.water,
-      c3 = VA.earth,
-      output = VA.fire,
-      saltOutput = VA.fire,
-    });
-    API.AddCompletionRecipe(new API.CompletionRecipe() {
-      conditions = API.NoConditions(),
-      saltElement = VA.salt,
-      c1 = VA.air,
-      c2 = VA.water,
-      c3 = VA.fire,
-      output = VA.earth,
-      saltOutput = VA.earth,
-    });
+    foreach (var recipe in API.CompletionRecipe.Simple(VA.water, VA.air, VA.fire, VA.earth)) {
+      API.CompletionRecipes.Add(recipe);
+    }
+    //API.CompletionRecipes.Add(new API.CompletionRecipe() {
+    //  conditions = API.NoConditions(),
+    //  saltElement = VA.salt,
+    //  c1 = VA.water,
+    //  c2 = VA.fire,
+    //  c3 = VA.earth,
+    //  output = VA.air,
+    //  saltOutput = VA.air,
+    //});
+    //API.CompletionRecipes.Add(new API.CompletionRecipe() {
+    //  conditions = API.NoConditions(),
+    //  saltElement = VA.salt,
+    //  c1 = VA.air,
+    //  c2 = VA.fire,
+    //  c3 = VA.earth,
+    //  output = VA.water,
+    //  saltOutput = VA.water,
+    //});
+    //API.CompletionRecipes.Add(new API.CompletionRecipe() {
+    //  conditions = API.NoConditions(),
+    //  saltElement = VA.salt,
+    //  c1 = VA.air,
+    //  c2 = VA.water,
+    //  c3 = VA.earth,
+    //  output = VA.fire,
+    //  saltOutput = VA.fire,
+    //});
+    //API.CompletionRecipes.Add(new API.CompletionRecipe() {
+    //  conditions = API.NoConditions(),
+    //  saltElement = VA.salt,
+    //  c1 = VA.air,
+    //  c2 = VA.water,
+    //  c3 = VA.fire,
+    //  output = VA.earth,
+    //  saltOutput = VA.earth,
+    //});
+    
     // EXTRAORDINARY
     if (uncommonPrimesAtoms.bellum is not null) {
-      API.AddCompletionRecipe(new API.CompletionRecipe() {
+      API.CompletionRecipes.Add(new API.CompletionRecipe() {
         conditions = API.ExtraordinaryConditions(),
         saltElement = VA.salt,
         c1 = uncommonPrimesAtoms.pax,
@@ -234,7 +238,7 @@ public static class GlyphCompletion {
         output = uncommonPrimesAtoms.bellum,
         saltOutput = uncommonPrimesAtoms.bellum,
       });
-      API.AddCompletionRecipe(new API.CompletionRecipe() {
+      API.CompletionRecipes.Add(new API.CompletionRecipe() {
         conditions = API.ExtraordinaryConditions(),
         saltElement = VA.salt,
         c1 = uncommonPrimesAtoms.pax,
@@ -243,7 +247,7 @@ public static class GlyphCompletion {
         output = uncommonPrimesAtoms.obscurum,
         saltOutput = uncommonPrimesAtoms.obscurum,
       });
-      API.AddCompletionRecipe(new API.CompletionRecipe() {
+      API.CompletionRecipes.Add(new API.CompletionRecipe() {
         conditions = API.ExtraordinaryConditions(),
         saltElement = VA.salt,
         c1 = uncommonPrimesAtoms.pax,
@@ -252,7 +256,7 @@ public static class GlyphCompletion {
         output = uncommonPrimesAtoms.lux,
         saltOutput = uncommonPrimesAtoms.lux,
       });
-      API.AddCompletionRecipe(new API.CompletionRecipe() {
+      API.CompletionRecipes.Add(new API.CompletionRecipe() {
         conditions = API.ExtraordinaryConditions(),
         saltElement = VA.salt,
         c1 = uncommonPrimesAtoms.lux,

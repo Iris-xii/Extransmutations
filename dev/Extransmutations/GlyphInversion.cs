@@ -82,25 +82,25 @@ public static class GlyphInversion {
   }
 
   internal static void DefaultRecipes() {
-    API.AddInversionRecipe(new() {
+    API.InversionRecipes.Add(new() {
       conditions = API.NoConditions(),
       cardinal = VA.water,
       invertsTo = VA.fire,
       saltOutput = VA.salt,
     });
-    API.AddInversionRecipe(new() {
+    API.InversionRecipes.Add(new() {
       conditions = API.NoConditions(),
       cardinal = VA.fire,
       invertsTo = VA.water,
       saltOutput = VA.salt,
     });
-    API.AddInversionRecipe(new() {
+    API.InversionRecipes.Add(new() {
       conditions = API.NoConditions(),
       cardinal = VA.earth,
       invertsTo = VA.air,
       saltOutput = VA.salt,
     });
-    API.AddInversionRecipe(new() {
+    API.InversionRecipes.Add(new() {
       conditions = API.NoConditions(),
       cardinal = VA.air,
       invertsTo = VA.earth,
@@ -108,25 +108,25 @@ public static class GlyphInversion {
     });
     // EXTRAORDINARY
     if (uncommonPrimesAtoms.bellum is not null) {
-      API.AddInversionRecipe(new() {
+      API.InversionRecipes.Add(new() {
         conditions = API.ExtraordinaryConditions(),
         cardinal = uncommonPrimesAtoms.bellum,
         invertsTo = uncommonPrimesAtoms.pax,
         saltOutput = VA.salt,
       });
-      API.AddInversionRecipe(new() {
+      API.InversionRecipes.Add(new() {
         conditions = API.ExtraordinaryConditions(),
         cardinal = uncommonPrimesAtoms.pax,
         invertsTo = uncommonPrimesAtoms.bellum,
         saltOutput = VA.salt,
       });
-      API.AddInversionRecipe(new() {
+      API.InversionRecipes.Add(new() {
         conditions = API.ExtraordinaryConditions(),
         cardinal = uncommonPrimesAtoms.lux,
         invertsTo = uncommonPrimesAtoms.obscurum,
         saltOutput = VA.salt,
       });
-      API.AddInversionRecipe(new() {
+      API.InversionRecipes.Add(new() {
         conditions = API.ExtraordinaryConditions(),
         cardinal = uncommonPrimesAtoms.obscurum,
         invertsTo = uncommonPrimesAtoms.lux,
